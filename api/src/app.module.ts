@@ -11,7 +11,7 @@ dotenv.config();
 @Module({
   imports: [
     ProfileModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/jam'),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
