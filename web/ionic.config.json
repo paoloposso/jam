@@ -1,7 +1,0 @@
-{
-  "name": "Jam",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
