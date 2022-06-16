@@ -3,7 +3,6 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { LocationEntity } from "../entities/location.entity";
 import { ProfileEntity } from "../entities/profile.entity";
-import { ProfileLocationModel } from "./location.schema";
 import { ProfileDocument } from "./profile.schema";
 
 @Injectable()
