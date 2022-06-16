@@ -7,12 +7,12 @@ export class LocationEntity {
         Object.assign(this, init);
     }
 
-    @Field()
-    type: String
+    @Field({ nullable: true })
+    type: string;
 
-    @Field({ nullable: false })
-    coordinates: number[]
+    @Field(_type => [Number], { nullable: true })
+    coordinates: number[] = [];
 
-    @Field({ nullable: false })
-    fullAddress: string
+    @Field({ nullable: true })
+    fullAddress: string;
 }

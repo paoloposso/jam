@@ -1,13 +1,16 @@
 import { ProfileEntity } from "./entities/profile.entity";
 import { ProfileRepository } from "./mongo/profile.repository";
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import * as moment from "moment";
 import { LocationEntity } from "./entities/location.entity";
+import { IProfileRepository } from "./profile.repository";
 
 @Injectable()
 export class ProfileService {
 
-    constructor(private repository: ProfileRepository) {}
+    constructor(
+        @Inject('IProfileRepository')
+        private repository: IProfileRepository) {}
     
     public async getProfileByEmail(email: string): Promise<ProfileEntity> {
         return this.repository.getByEmail(email);

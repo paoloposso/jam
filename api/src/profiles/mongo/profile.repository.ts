@@ -3,24 +3,43 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { LocationEntity } from "../entities/location.entity";
 import { ProfileEntity } from "../entities/profile.entity";
+import { IProfileRepository } from "../profile.repository";
 import { ProfileDocument } from "./profile.schema";
 
 @Injectable()
-export class ProfileRepository {
+export class ProfileRepository implements IProfileRepository {
 
     constructor(
         @InjectModel('Profile')
         private model: Model<ProfileDocument>) {}
 
     public async getByEmail(email: string): Promise<ProfileEntity> {
-        let result: ProfileEntity;
-        Object.assign(result, await this.model.findOne({ email }).exec());
+        let result = new ProfileEntity();
+
+        let profileData = await this.model.findOne({email});
+        
+        if (profileData) {
+            result.id = profileData._id;
+            result.email = profileData.email;
+            result.name = profileData.name;
+            result.location = profileData.location;
+        }
+        
         return result;
     }
 
     public async getById(id: string): Promise<ProfileEntity> {
-        let result: ProfileEntity;
-        Object.assign(result, await this.model.findById(id).exec());
+        let result = new ProfileEntity();
+
+        let profileData = await this.model.findById(id);
+
+        if (profileData) {
+            result.id = profileData._id;
+            result.email = profileData.email;
+            result.name = profileData.name;
+            result.location = profileData.location;
+        }
+
         return result;
     }
 

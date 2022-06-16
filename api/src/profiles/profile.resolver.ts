@@ -15,13 +15,13 @@ export class ProfileResolver {
   }
 
   @Query(returns => ProfileEntity, { name: 'getProfileById' })
-  getProfileById(@Args('id', { type: () => String }) email: string) {
-    return this.service.getProfileById(email);
+  getProfileById(@Args('id', { type: () => String }) id: string) {
+    return this.service.getProfileById(id);
   }
 
   @Mutation(returns => String)
   async createProfile(@Args({ name: 'input', type: () => CreateProfileInput }) input: CreateProfileInput) {
-    return this.service.create(new ProfileEntity(input));
+    return this.service.create(Object.assign(new ProfileEntity(), input));
   }
 
   @Mutation(returns => String)

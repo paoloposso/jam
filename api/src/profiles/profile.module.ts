@@ -13,9 +13,13 @@ import { ProfileService } from "./profile.service";
         }])
     ],
     providers: [
-        ProfileRepository,
         ProfileResolver,
-        ProfileService    
+        ProfileService,
+        ProfileRepository,
+        {
+            provide: 'IProfileRepository',
+            useClass: ProfileRepository
+        }   
     ],
 })
 export class ProfileModule {}

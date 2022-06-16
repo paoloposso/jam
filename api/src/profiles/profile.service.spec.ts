@@ -4,10 +4,11 @@ import { ProfileEntity } from "./entities/profile.entity";
 import { ProfileDocument } from "./mongo/profile.schema";
 import { ProfileRepository } from "./mongo/profile.repository";
 import { ProfileService } from "./profile.service";
+import { IProfileRepository } from "./profile.repository";
 
 describe('ProfileService', () => {
     let service: ProfileService;
-    let repository: ProfileRepository;
+    let repository: IProfileRepository;
 
     beforeAll(() => {
         repository = new ProfileRepository({} as Model<ProfileDocument, {}, {}>);

@@ -4,10 +4,6 @@ import { LocationEntity } from './location.entity';
 @ObjectType()
 export class ProfileEntity {
 
-    constructor(init?: Partial<ProfileEntity>) {
-        Object.assign(this, init);
-    }
-
     @Field()
     id: string;
 

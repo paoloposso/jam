@@ -10,14 +10,14 @@ export class ProfileLocationModel {
         Object.assign(this, init);
     }
 
-    @Prop({ type: String, enum: ['Point'], required: true })
-    type: String
+    @Prop({ type: String, enum: ['Point'], required: false })
+    type: string
 
-    @Prop({ type: [Float], required: true })
+    @Prop({ type: [Number], required: false })
     coordinates: number[]
 
-    @Prop({ type: [String], required: true })
+    @Prop({ type: [String], required: false })
     fullAddress: string
 }
 
-export const LocationSchema = SchemaFactory.createForClass(Location);
+export const LocationSchema = SchemaFactory.createForClass(ProfileLocationModel);
