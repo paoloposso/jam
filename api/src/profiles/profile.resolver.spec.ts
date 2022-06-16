@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 import { CreateProfileInput } from "./inputs/create-profile.input";
-import { ProfileModel } from "./models/profile.model";
+import { ProfileEntity } from "./entities/profile.entity";
 import { ProfileDocument } from "./mongo/profile.schema";
 import { ProfileRepository } from "./mongo/profile.repository";
 import { ProfileResolver } from "./profile.resolver";
@@ -19,7 +19,7 @@ describe('ProfileResolver', () => {
         it ('should return a profile', async () => {
             jest.spyOn(service, 'getProfileByEmail').mockImplementation(() => {
                 return new Promise((resolve, _reject) => {
-                    resolve(new ProfileModel({email: 'pvictorsys@gmail.com'}));
+                    resolve(new ProfileEntity({email: 'pvictorsys@gmail.com'}));
                 });
             });
 

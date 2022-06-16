@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import { Model } from "mongoose";
-import { ProfileModel } from "./models/profile.model";
+import { ProfileEntity } from "./entities/profile.entity";
 import { ProfileDocument } from "./mongo/profile.schema";
 import { ProfileRepository } from "./mongo/profile.repository";
 import { ProfileService } from "./profile.service";
@@ -18,7 +18,7 @@ describe('ProfileService', () => {
         it ('should return a profile', async () => {
             jest.spyOn(repository, 'getByEmail').mockImplementation(() => {
                 return new Promise((resolve, _reject) => {
-                    resolve(new ProfileModel({email: 'pvictorsys@gmail.com'}));
+                    resolve(new ProfileEntity({email: 'pvictorsys@gmail.com'}));
                 });
             });
 
@@ -30,7 +30,7 @@ describe('ProfileService', () => {
         it ('should return a profile', async () => {
             jest.spyOn(repository, 'getById').mockImplementation(() => {
                 return new Promise((resolve, _reject) => {
-                    resolve(new ProfileModel({email: 'pvictorsys@gmail.com'}));
+                    resolve(new ProfileEntity({email: 'pvictorsys@gmail.com'}));
                 });
             });
 
@@ -46,7 +46,7 @@ describe('ProfileService', () => {
                 });
             });
 
-            let profile = new ProfileModel();
+            let profile = new ProfileEntity();
             profile.email = 'test@test.com';
             profile.name = 'test';
 
@@ -62,7 +62,7 @@ describe('ProfileService', () => {
                 });
             });
 
-            let profile = new ProfileModel();
+            let profile = new ProfileEntity();
             profile.email = 'pvictorsys@gmail.com';
             profile.name = '';
 
@@ -83,7 +83,7 @@ describe('ProfileService', () => {
                 });
             });
 
-            let profile = new ProfileModel();
+            let profile = new ProfileEntity();
             profile.email = '';
 
             try {

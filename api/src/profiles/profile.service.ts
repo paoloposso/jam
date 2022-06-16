@@ -1,22 +1,23 @@
-import { ProfileModel } from "./models/profile.model";
+import { ProfileEntity } from "./entities/profile.entity";
 import { ProfileRepository } from "./mongo/profile.repository";
 import { Injectable } from "@nestjs/common";
 import * as moment from "moment";
+import { LocationEntity } from "./entities/location.entity";
 
 @Injectable()
 export class ProfileService {
 
     constructor(private repository: ProfileRepository) {}
     
-    public async getProfileByEmail(email: string): Promise<ProfileModel> {
+    public async getProfileByEmail(email: string): Promise<ProfileEntity> {
         return this.repository.getByEmail(email);
     }
 
-    public async getProfileById(id: string): Promise<ProfileModel> {
+    public async getProfileById(id: string): Promise<ProfileEntity> {
         return this.repository.getById(id);
     }
 
-    public async create(profile: ProfileModel): Promise<string> {
+    public async create(profile: ProfileEntity): Promise<string> {
         let errors: string[] = [];
 
         this.validateCreateProfileInput(profile, errors);
@@ -30,11 +31,15 @@ export class ProfileService {
         return this.repository.addInstruments(profileId, instruments);
     }
 
-    getUtcDate() : Date {
+    public getUtcDate() : Date {
         return moment.utc().toDate();
     }
 
-    private validateCreateProfileInput(profile: ProfileModel, errors: string[]) {
+    public async editAddress(profileId: string, location: LocationEntity) {
+
+    }
+
+    private validateCreateProfileInput(profile: ProfileEntity, errors: string[]) {
         if (!profile.email || profile.email.length === 0) {
             errors.push('Email is required');
         }

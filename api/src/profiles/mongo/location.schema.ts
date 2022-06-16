@@ -2,10 +2,10 @@ import { Float, Int } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export type LocationDocument = Location & Document;
+export type LocationDocument = ProfileLocationModel & Document;
 
 @Schema()
-export class Location {
+export class ProfileLocationModel {
     constructor(init?: Partial<Location>) {
         Object.assign(this, init);
     }

@@ -1,13 +1,14 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { LocationEntity } from './location.entity';
 
 @ObjectType()
-export class ProfileModel {
+export class ProfileEntity {
 
-    constructor(init?: Partial<ProfileModel>) {
+    constructor(init?: Partial<ProfileEntity>) {
         Object.assign(this, init);
     }
 
-    @Field(() => ID)
+    @Field()
     id: string;
 
     @Field({ nullable: false })
@@ -18,4 +19,7 @@ export class ProfileModel {
 
     @Field({ nullable: true })
     registered: Date;
+
+    @Field({ nullable: true })
+    location: LocationEntity;
 }
