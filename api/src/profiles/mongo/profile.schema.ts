@@ -26,6 +26,9 @@ export class Profile {
 
     @Prop({ required: true })
     registered: Date;
+
+    @Prop({ required: false })
+    location: Location;    
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);
