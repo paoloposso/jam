@@ -19,7 +19,7 @@ describe('ProfileResolver', () => {
         it ('should return a profile', async () => {
             jest.spyOn(service, 'getProfileByEmail').mockImplementation(() => {
                 return new Promise((resolve, _reject) => {
-                    resolve(new ProfileEntity({email: 'pvictorsys@gmail.com'}));
+                    resolve({email: 'pvictorsys@gmail.com'} as ProfileEntity);
                 });
             });
 

@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import { LocationEntity } from "../entities/location.entity";
 import { ProfileEntity } from "../entities/profile.entity";
 import { IProfileRepository } from "../profile.repository";
-import { ProfileDocument } from "./profile.schema";
+import { ProfileDocument, ProfileModel, ProfileSchema } from "./profile.schema";
 
 @Injectable()
 export class ProfileRepository implements IProfileRepository {
@@ -44,7 +44,7 @@ export class ProfileRepository implements IProfileRepository {
     }
 
     public async create(profile: ProfileEntity): Promise<string> {
-        return (await new this.model(profile).save())._id.toString();
+        return (await new this.model(profile).save())._id;
     }
 
     public async saveLocation(profileId: string, location: LocationEntity): Promise<string> {

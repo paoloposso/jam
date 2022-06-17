@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { LocationEntity } from './location.entity';
 
 @ObjectType()
@@ -15,6 +15,12 @@ export class ProfileEntity {
 
     @Field({ nullable: true })
     registered: Date;
+
+    @Field(_type => [String], {nullable: true })
+    styles: string[];
+
+    @Field(_type => [String], { nullable: true })
+    instruments: string[];
 
     @Field({ nullable: true })
     location: LocationEntity;

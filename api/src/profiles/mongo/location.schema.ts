@@ -16,7 +16,7 @@ export class ProfileLocationModel {
     @Prop({ type: [Number], required: false })
     coordinates: number[]
 
-    @Prop({ type: [String], required: false })
+    @Prop({ type: String, required: false })
     fullAddress: string
 }
 
