@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { ProfileSchema } from "./mongo/profile.schema";
-import { ProfileRepository } from "./mongo/profile.repository";
+import { ProfileSchema } from "./infrastructure/mongo/profile.schema";
+import { ProfileRepository } from "./infrastructure/mongo/profile.repository";
 import { ProfileResolver } from "./profile.resolver";
 import { ProfileService } from "./profile.service";
 

@@ -1,8 +1,8 @@
 import * as moment from "moment";
 import { Model } from "mongoose";
 import { ProfileEntity } from "./entities/profile.entity";
-import { ProfileDocument } from "./mongo/profile.schema";
-import { ProfileRepository } from "./mongo/profile.repository";
+import { ProfileDocument } from "./infrastructure/mongo/profile.schema";
+import { ProfileRepository } from "./infrastructure/mongo/profile.repository";
 import { ProfileService } from "./profile.service";
 import { IProfileRepository } from "./profile.repository";
 

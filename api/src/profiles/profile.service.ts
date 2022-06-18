@@ -1,5 +1,5 @@
 import { ProfileEntity } from "./entities/profile.entity";
-import { ProfileRepository } from "./mongo/profile.repository";
+import { ProfileRepository } from "./infrastructure/mongo/profile.repository";
 import { Inject, Injectable } from "@nestjs/common";
 import * as moment from "moment";
 import { LocationEntity } from "./entities/location.entity";
