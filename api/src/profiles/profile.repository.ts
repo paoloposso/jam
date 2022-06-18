@@ -2,8 +2,7 @@ import { LocationEntity } from "./entities/location.entity";
 import { ProfileEntity } from "./entities/profile.entity";
 
 export interface IProfileRepository {
-
-
+    
     getByEmail(email: string): Promise<ProfileEntity>;
 
     getById(id: string): Promise<ProfileEntity>;
@@ -13,4 +12,6 @@ export interface IProfileRepository {
     saveLocation(profileId: string, location: LocationEntity): Promise<string>;
 
     addInstruments(id: string, instruments: string[]);
+
+    addStyles(id: string, styles: string[]);
 }

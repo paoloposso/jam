@@ -3,6 +3,7 @@ import { AddInstrumentsInput } from "./inputs/add-instruments.input";
 import { CreateProfileInput } from "./inputs/create-profile.input";
 import { ProfileEntity } from "./entities/profile.entity";
 import { ProfileService } from "./profile.service";
+import { AddStylesInput } from "./inputs/add-styles.input";
 
 @Resolver(of => ProfileEntity)
 export class ProfileResolver {
@@ -25,7 +26,16 @@ export class ProfileResolver {
   }
 
   @Mutation(returns => String)
-  async addInstruments(@Args({ name: 'input', type: () => AddInstrumentsInput }) input: AddInstrumentsInput) {
+  async addInstruments(
+      @Args({ name: 'input', type: () => AddInstrumentsInput }) 
+      input: AddInstrumentsInput) {
     return this.service.addInstruments(input.id, input.instruments);
+  }
+
+  @Mutation(returns => String)
+  async addStyles(
+      @Args({ name: 'input', type: () => AddStylesInput }) 
+      input: AddStylesInput) {
+    return this.service.addInstruments(input.id, input.styles);
   }
 }

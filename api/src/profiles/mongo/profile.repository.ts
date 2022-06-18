@@ -60,4 +60,11 @@ export class ProfileRepository implements IProfileRepository {
         model.instruments.push(...instruments);
         return (await model.save())._id.toString();
     }
+
+    public async addStyles(id: string, styles: string[]) {
+        const model = await this.model.findById(id);
+        model.styles = [];
+        model.styles.push(...styles);
+        return (await model.save())._id.toString();
+    }
 }
