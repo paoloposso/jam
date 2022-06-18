@@ -96,8 +96,41 @@ describe('ProfileService', () => {
             }
         });
 
-        it ('should get utc date', () => {
-            let d = moment.utc().toDate();
+        it ('should return id after adding styles', async () => {
+            let id = 'abcd1234';
+
+            jest.spyOn(repository, 'addStyles').mockImplementation(() => {
+                return new Promise((resolve, _reject) => {
+                    resolve(id);
+                });
+            });
+
+            let profile = {} as ProfileEntity;
+            profile.id = id;
+            profile.styles = ['jazz', 'samba'];
+
+            let result = await service.addStyles(id, profile.styles);
+            expect(id).toEqual(result);
+        });
+
+        it ('should fail when email is blank', async () => {
+            let id = 'abcd1234';
+
+            jest.spyOn(repository, 'create').mockImplementation(() => {
+                return new Promise((resolve, _reject) => {
+                    resolve('id123');
+                });
+            });
+
+            let styles: string[] = [];
+
+            try {
+                await service.addInstruments(id, styles);
+                fail('should have validated styles');
+            } catch (e) {
+                let message = ((e as Error).message);
+                expect(message.toLowerCase().includes('is required')).toBeTruthy();
+            }
         });
     });
 });

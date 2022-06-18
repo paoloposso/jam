@@ -31,10 +31,16 @@ export class ProfileService {
     }
 
     public async addInstruments(profileId: string, instruments: string[]) {
+        if (!instruments || instruments.length < 1) {
+            throw new Error('Instruments list is required');
+        }
         return this.repository.addInstruments(profileId, instruments);
     }
 
     public async addStyles(profileId: string, styles: string[]) {
+        if (!styles || styles.length < 1) {
+            throw new Error('Styles list is required');
+        }
         return this.repository.addStyles(profileId, styles);
     }
 
