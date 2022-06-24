@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import { LocationEntity } from "../../entities/location.entity";
 import { ProfileEntity } from "../../entities/profile.entity";
 import { IProfileRepository } from "../../profile.repository";
-import { ProfileDocument, ProfileModel, ProfileSchema } from "./profile.schema";
+import { ProfileDocument } from "./profile.schema";
 
 @Injectable()
 export class ProfileRepository implements IProfileRepository {
@@ -54,14 +54,14 @@ export class ProfileRepository implements IProfileRepository {
         return result._id;
     }
 
-    public async addInstruments(id: string, instruments: string[]) {
+    public async addInstruments(id: string, instruments: string[]): Promise<string> {
         const model = await this.model.findById(id);
         model.instruments = [];
         model.instruments.push(...instruments);
         return (await model.save())._id.toString();
     }
 
-    public async addStyles(id: string, styles: string[]) {
+    public async addStyles(id: string, styles: string[]): Promise<string> {
         const model = await this.model.findById(id);
         model.styles = [];
         model.styles.push(...styles);

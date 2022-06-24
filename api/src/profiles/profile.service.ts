@@ -1,8 +1,6 @@
 import { ProfileEntity } from "./entities/profile.entity";
-import { ProfileRepository } from "./infrastructure/mongo/profile.repository";
 import { Inject, Injectable } from "@nestjs/common";
 import * as moment from "moment";
-import { LocationEntity } from "./entities/location.entity";
 import { IProfileRepository } from "./profile.repository";
 
 @Injectable()
@@ -46,10 +44,6 @@ export class ProfileService {
 
     public getUtcDate() : Date {
         return moment.utc().toDate();
-    }
-
-    public async editAddress(profileId: string, location: LocationEntity) {
-
     }
 
     private validateCreateProfileInput(profile: ProfileEntity, errors: string[]) {

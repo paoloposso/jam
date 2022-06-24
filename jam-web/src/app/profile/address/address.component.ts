@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, OnInit, AfterViewInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-address',
@@ -7,8 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddressComponent implements OnInit {
 
-  constructor() { }
+  @Input() adressType: string;
+  @Output() setAddress: EventEmitter<any> = new EventEmitter();
+  @ViewChild('addresstext') addresstext: any;
 
-  ngOnInit() {}
+  autocompleteInput: string;
+  queryWait: boolean;
 
+  constructor() {
+  }
+
+  ngOnInit() {
+  }
 }

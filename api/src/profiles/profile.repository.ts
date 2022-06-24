@@ -11,7 +11,7 @@ export interface IProfileRepository {
 
     saveLocation(profileId: string, location: LocationEntity): Promise<string>;
 
-    addInstruments(id: string, instruments: string[]);
+    addInstruments(id: string, instruments: string[]): Promise<string>;
 
-    addStyles(id: string, styles: string[]);
+    addStyles(id: string, styles: string[]): Promise<string>;
 }

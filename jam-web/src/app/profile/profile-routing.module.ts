@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ProfilePage } from './profile.page';
