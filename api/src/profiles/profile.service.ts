@@ -1,6 +1,5 @@
 import { ProfileEntity } from "./entities/profile.entity";
 import { Inject, Injectable } from "@nestjs/common";
-import * as moment from "moment";
 import { IProfileRepository } from "./profile.repository";
 
 @Injectable()
