@@ -1,4 +1,4 @@
-import { Component, ViewChild, EventEmitter, Output, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-address',
@@ -18,5 +18,25 @@ export class AddressComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+      this.getPlaceAutocomplete();
+  }
+
+  private getPlaceAutocomplete() {
+      const autocomplete = new google.maps.places.Autocomplete(this.addresstext.nativeElement,
+          {
+              componentRestrictions: { country: 'US' },
+              types: [this.adressType]
+          });
+      google.maps.event.addListener(autocomplete, 'place_changed', () => {
+          const place = autocomplete.getPlace();
+          this.invokeEvent(place);
+      });
+  }
+
+  invokeEvent(place: Object) {
+      this.setAddress.emit(place);
   }
 }
