@@ -90,8 +90,8 @@ export class AddressComponent implements OnInit {
     }
   
     //FUNCTION SHOWING THE COORDINATES OF THE POINT AT THE CENTER OF THE MAP
-    ShowCords(){
-      alert('lat' +this.lat+', long'+this.long )
+    showCords(){
+      alert('lat' + this.lat + ', long' + this.long);
     }
     
     //AUTOCOMPLETE, SIMPLY LOAD THE PLACE USING GOOGLE PREDICTIONS AND RETURNING THE ARRAY.
