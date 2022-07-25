@@ -10,8 +10,8 @@ declare var google;
   styleUrls: ['./address.component.scss'],
 })
 export class AddressComponent implements OnInit {
-    @ViewChild('map',  {static: false}) mapElement: ElementRef;
-    map: any;
+    // @ViewChild('map',  {static: false}) mapElement: ElementRef;
+    // map: any;
     address:string;
     lat: string;
     long: string;  
@@ -30,13 +30,11 @@ export class AddressComponent implements OnInit {
       this.autocomplete = { input: '' };
       this.autocompleteItems = [];
     }
-   
-    //LOAD THE MAP ONINIT.
+
     ngOnInit() {
-      this.loadMap();    
     }
   
-    async loadMap() {
+    public async getCoordinates(): Promise<any> {
       let resp = await this.geolocation.getCurrentPosition();
       let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
       let mapOptions = {
@@ -46,28 +44,28 @@ export class AddressComponent implements OnInit {
       } 
       
       await this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude); 
-      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions); 
-      this.map.addListener('tilesloaded', () => {
-        console.log('accuracy',this.map, this.map.center.lat());
-        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng());
-        this.lat = this.map.center.lat()
-        this.long = this.map.center.lng()
-      });
+      // this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions); 
+      // this.map.addListener('tilesloaded', () => {
+      //   console.log('accuracy',this.map, this.map.center.lat());
+      //   this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng());
+      //   this.lat = this.map.center.lat()
+      //   this.long = this.map.center.lng()
+      // });
     }
   
-    async getAddressFromCoords(latitude, longitude) {
+    async getAddressFromCoords(latitude, longitude): Promise<any> {
       console.log("getAddressFromCoords " + latitude + " " + longitude);
       let options: NativeGeocoderOptions = {
         useLocale: true,
         maxResults: 5    
-      }; 
+      };
 
       let result = await this.nativeGeocoder.reverseGeocode(latitude, longitude, options);
 
       this.address = "";
       let responseAddress = [];
-      for (let [key, value] of Object.entries(result[0])) {
-        if(value.length > 0) responseAddress.push(value); 
+      for (let [_, value] of Object.entries(result[0])) {
+        if (value.length > 0) responseAddress.push(value); 
       }
       responseAddress.reverse();
       for (let value of responseAddress) {
@@ -83,7 +81,7 @@ export class AddressComponent implements OnInit {
         return;
       }
       this.googleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
-      (predictions, status) => {
+      (predictions, _status) => {
         this.autocompleteItems = [];
         this.zone.run(() => {
           predictions.forEach((prediction) => {
@@ -96,7 +94,8 @@ export class AddressComponent implements OnInit {
     //wE CALL THIS FROM EACH ITEM.
     selectSearchResult(item) {    
       this.placeid = item.place_id;
-      alert(this.placeid);
+      this.location = item.description;
+      alert(this.location);
     }
     
     clearAutocomplete(){

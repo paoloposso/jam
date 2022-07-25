@@ -9,18 +9,10 @@
     </ion-list>
     <ion-row>    
         <ion-col size="12">
-        <ion-button (click)="loadMap()" shape="round" fill="outline">
+        <ion-button (click)="getCoordinates()" shape="round" fill="outline">
             <ion-icon slot="start" name="locate"></ion-icon>
               My Location
             </ion-button>
         </ion-col>
     </ion-row>
 </ion-header>
-<ion-content>
-  <div class="map-wrapper" style="height: 100%;">      
-    <div id="map_center">
-      <ion-icon name="pin" size="large" color="danger"></ion-icon>      
-    </div>
-    <div #map id="map"  style="height: 100%;"></div>
-  </div> 
-</ion-content>
