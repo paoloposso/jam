@@ -6,50 +6,31 @@ package graph
 import (
 	"api-graphql/graph/generated"
 	"api-graphql/graph/model"
+	"api-graphql/infrastructure/repository/mongo"
+	"api-graphql/users"
 	"context"
 	"fmt"
-	"strconv"
 )
 
-// UpsertCharacter is the resolver for the upsertCharacter field.
-func (r *mutationResolver) UpsertCharacter(ctx context.Context, input model.CharacterInput) (*model.Character, error) {
-	id := input.ID
-	var character model.Character
-	character.Name = input.Name
-
-	n := len(r.Resolver.CharacterStore)
-	if n == 0 {
-		r.Resolver.CharacterStore = make(map[string]model.Character)
+// InsertUser is the resolver for the insertUser field.
+func (r *mutationResolver) InsertUser(ctx context.Context, input model.UserInsertInput) (*string, error) {
+	user := users.User{
+		Email:     *input.Email,
+		Name:      *input.Name,
+		BirthDate: *input.BirthDate,
 	}
 
-	if id != nil {
-		_, ok := r.Resolver.CharacterStore[*id]
-		if !ok {
-			return nil, fmt.Errorf("not found")
-		}
-		r.Resolver.CharacterStore[*id] = character
-	} else {
-		// generate unique id
-		nid := strconv.Itoa(n + 1)
-		character.ID = nid
-		r.Resolver.CharacterStore[nid] = character
+	service := users.Service{
+		Repository: mongo.Users{},
 	}
 
-	return &character, nil
+	result, err := service.InsertUser(user)
+
+	return &result, err
 }
 
-// Character is the resolver for the character field.
-func (r *queryResolver) Character(ctx context.Context, id string) (*model.Character, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-// Pogues is the resolver for the pogues field.
-func (r *queryResolver) Pogues(ctx context.Context) ([]*model.Character, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-// Kooks is the resolver for the kooks field.
-func (r *queryResolver) Kooks(ctx context.Context) ([]*model.Character, error) {
+// User is the resolver for the user field.
+func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

@@ -2,13 +2,22 @@
 
 package model
 
-type Character struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type Location struct {
+	Latitude  *float64 `json:"latitude"`
+	Longitude *float64 `json:"longitude"`
 }
 
-type CharacterInput struct {
-	Name string  `json:"name"`
-	ID   *string `json:"id"`
-	Age  *string `json:"age"`
+type User struct {
+	ID          string    `json:"id"`
+	BirthDate   *string   `json:"birthDate"`
+	Name        string    `json:"name"`
+	Email       string    `json:"email"`
+	Location    *Location `json:"location"`
+	Instruments []*string `json:"instruments"`
+}
+
+type UserInsertInput struct {
+	Name      *string `json:"name"`
+	Email     *string `json:"email"`
+	BirthDate *string `json:"birthDate"`
 }

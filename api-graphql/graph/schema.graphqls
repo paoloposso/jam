@@ -1,20 +1,29 @@
-type Character {
+type User {
   id: ID!
+  birthDate: String
   name: String!
+  email: String!
+  location: Location
+  instruments: [String]!
 }
 
-input CharacterInput {
-  name: String!
-  id: String
-  age: String
+type Location {
+  latitude: Float
+  longitude: Float
+}
+
+input UserInsertInput {
+  name: String
+  email: String
+  birthDate: String
 }
 
 type Query {
-  character(id:ID!): Character
-  pogues: [Character]!
-  kooks: [Character]!
+  user(id:ID!): User
+  # pogues: [Character]!
+  # kooks: [Character]!
 }
 
 type Mutation {
-  upsertCharacter(input: CharacterInput!): Character!
+  insertUser(input: UserInsertInput!): String
 }
