@@ -1,8 +1,13 @@
 package database
 
-import "api-graphql/users"
+import (
+	"api-graphql/users"
+
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type UserRepository struct {
+	client *mongo.Client
 }
 
 func (this UserRepository) Insert(user users.User) (id string, err error) {
