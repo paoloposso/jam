@@ -3,6 +3,8 @@ package main
 import (
 	"api-graphql/graph"
 	"api-graphql/graph/generated"
+	"api-graphql/infrastructure/database"
+	"api-graphql/users"
 	"log"
 	"net/http"
 	"os"
@@ -19,8 +21,14 @@ func main() {
 		port = defaultPort
 	}
 
+	uri := "mongodb://localhost:27017/jamapp"
+
+	client, _ := database.GetClient(uri)
+	repo := database.UserRepository{Client: client}
+	service := users.Service{Repository: repo}
+
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}})))
+	http.Handle("/query", handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{Service: &service}})))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
