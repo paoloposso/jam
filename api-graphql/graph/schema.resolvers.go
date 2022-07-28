@@ -6,7 +6,7 @@ package graph
 import (
 	"api-graphql/graph/generated"
 	"api-graphql/graph/model"
-	"api-graphql/infrastructure/repository"
+	"api-graphql/infrastructure/repository/database"
 	"api-graphql/users"
 	"context"
 	"fmt"
@@ -21,7 +21,7 @@ func (r *mutationResolver) InsertUser(ctx context.Context, input model.UserInser
 	}
 
 	service := users.Service{
-		Repository: repository.User{},
+		Repository: database.User{},
 	}
 
 	result, err := service.InsertUser(user)
