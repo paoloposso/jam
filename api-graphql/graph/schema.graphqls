@@ -1,9 +1,9 @@
 type User {
   id: ID!
-  birthDate: String
-  name: String!
-  email: String!
-  location: Location
+  birthDate: String!
+  name: String
+  email: String
+  location: Location!
   instruments: [String]!
 }
 

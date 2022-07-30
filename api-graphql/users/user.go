@@ -5,4 +5,8 @@ type User struct {
 	Email     string
 	Name      string
 	BirthDate string
+	Location  Location
+}
+
+type Location struct {
 }

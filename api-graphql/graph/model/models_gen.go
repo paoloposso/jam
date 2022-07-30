@@ -9,9 +9,9 @@ type Location struct {
 
 type User struct {
 	ID          string    `json:"id"`
-	BirthDate   *string   `json:"birthDate"`
-	Name        string    `json:"name"`
-	Email       string    `json:"email"`
+	BirthDate   string    `json:"birthDate"`
+	Name        *string   `json:"name"`
+	Email       *string   `json:"email"`
 	Location    *Location `json:"location"`
 	Instruments []*string `json:"instruments"`
 }

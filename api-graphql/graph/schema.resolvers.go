@@ -18,10 +18,11 @@ func (r *mutationResolver) InsertUser(ctx context.Context, input model.UserInser
 		Name:      *input.Name,
 		BirthDate: *input.BirthDate,
 	}
-
 	result, err := r.Resolver.Service.InsertUser(user)
-
-	return &result, err
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
 }
 
 // User is the resolver for the user field.
