@@ -21,7 +21,7 @@ func (this UserRepository) Insert(user users.User) (id string, err error) {
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("%b", result.InsertedID), nil
+	return fmt.Sprintf("%s", result.InsertedID), nil
 }
 
 func (this UserRepository) Update(user users.User) error {

@@ -20,16 +20,15 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-
-	uri := "mongodb://localhost:27017/jamapp"
-
-	client, _ := database.GetClient(uri)
+	client, err := database.GetClient("mongodb://localhost:27017/jamapp")
+	if err != nil {
+		panic(err)
+	}
 	repo := database.UserRepository{Client: client}
 	service := users.Service{Repository: repo}
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{Service: &service}})))
-
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
