@@ -7,6 +7,11 @@ type Location struct {
 	Longitude *float64 `json:"longitude"`
 }
 
+type LocationInput struct {
+	Latitude  *float64 `json:"latitude"`
+	Longitude *float64 `json:"longitude"`
+}
+
 type User struct {
 	ID          string    `json:"id"`
 	BirthDate   string    `json:"birthDate"`
@@ -17,7 +22,8 @@ type User struct {
 }
 
 type UserInsertInput struct {
-	Name      *string `json:"name"`
-	Email     *string `json:"email"`
-	BirthDate *string `json:"birthDate"`
+	Name      *string        `json:"name"`
+	Email     *string        `json:"email"`
+	BirthDate *string        `json:"birthDate"`
+	Location  *LocationInput `json:"location"`
 }

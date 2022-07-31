@@ -22,7 +22,7 @@ func main() {
 	}
 
 	repo := database.NewRepository("mongodb://localhost:27017")
-	service := users.Service{Repository: repo}
+	service := users.NewService(repo)
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/graph"))
 	http.Handle("/graph", handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{Service: &service}})))

@@ -17,11 +17,33 @@ func (r *mutationResolver) InsertUser(ctx context.Context, input model.UserInser
 		Email:     *input.Email,
 		Name:      *input.Name,
 		BirthDate: *input.BirthDate,
+		Location: users.Location{
+			Latitude:  *input.Location.Latitude,
+			Longitude: *input.Location.Longitude,
+		},
 	}
 	result, err := r.Resolver.Service.InsertUser(user)
 	if err != nil {
 		return nil, err
 	}
+	return &result, nil
+}
+
+// GetUserByEmail is the resolver for the getUserByEmail field.
+func (r *mutationResolver) GetUserByEmail(ctx context.Context, email *string) (*model.User, error) {
+	user, err := r.Resolver.Service.GetByEmail(*email)
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := model.User{
+		Name:     &user.Name,
+		Location: &model.Location{Latitude: &user.Location.Latitude, Longitude: &user.Location.Longitude},
+		Email:    &user.Email,
+		ID:       user.ID,
+	}
+
 	return &result, nil
 }
 

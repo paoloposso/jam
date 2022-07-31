@@ -1,9 +1,15 @@
 package users
 
-import "errors"
+import (
+	"errors"
+)
 
 type Service struct {
-	Repository Repository
+	repository Repository
+}
+
+func NewService(repository Repository) Service {
+	return Service{repository: repository}
 }
 
 func (this Service) InsertUser(user User) (id string, err error) {
@@ -16,5 +22,12 @@ func (this Service) InsertUser(user User) (id string, err error) {
 	if user.BirthDate == "" {
 		return "", errors.New("birthdate is required")
 	}
-	return this.Repository.Insert(user)
+	return this.repository.Insert(user)
+}
+
+func (this Service) GetByEmail(email string) (user *User, err error) {
+	if email == "" {
+		return nil, errors.New("email is required")
+	}
+	return this.repository.GetByEmail(email)
 }
