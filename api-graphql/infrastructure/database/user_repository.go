@@ -10,20 +10,20 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const database = "jamapp"
 const collection = "users"
 
 type UserRepository struct {
-	client *mongo.Client
+	client   *mongo.Client
+	database string
 }
 
-func NewRepository(url string) *UserRepository {
+func NewRepository(url string, databaseName string) *UserRepository {
 	client, err := getClient(url)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	col := client.Database(database).Collection(collection)
+	col := client.Database(databaseName).Collection(collection)
 
 	_, err = col.Indexes().CreateOne(
 		context.Background(),
@@ -36,11 +36,11 @@ func NewRepository(url string) *UserRepository {
 		log.Fatal(err)
 	}
 
-	return &UserRepository{client: client}
+	return &UserRepository{client: client, database: databaseName}
 }
 
 func (this UserRepository) Insert(user users.User) (id string, err error) {
-	col := this.client.Database(database).Collection(collection)
+	col := this.client.Database(this.database).Collection(collection)
 
 	result, err := col.InsertOne(context.Background(), user)
 
@@ -51,7 +51,7 @@ func (this UserRepository) Insert(user users.User) (id string, err error) {
 }
 
 func (this UserRepository) GetByEmail(email string) (*users.User, error) {
-	col := this.client.Database(database).Collection(collection)
+	col := this.client.Database(this.database).Collection(collection)
 	filter := bson.D{{Key: "email", Value: email}}
 	var result users.User
 
@@ -64,7 +64,7 @@ func (this UserRepository) GetByEmail(email string) (*users.User, error) {
 }
 
 func (this UserRepository) Update(user users.User) error {
-	col := this.client.Database(database).Collection(collection)
+	col := this.client.Database(this.database).Collection(collection)
 
 	_, err := col.UpdateByID(context.Background(), user.ID, user)
 

@@ -1,28 +1,31 @@
 package main
 
 import (
+	"api-graphql/config"
 	"api-graphql/graph"
 	"api-graphql/graph/generated"
 	"api-graphql/infrastructure/database"
 	"api-graphql/users"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/joho/godotenv"
 )
 
 const defaultPort = "8080"
 
 func main() {
-	port := os.Getenv("PORT")
+	_ = godotenv.Load()
+
+	port := config.GetPort()
 	if port == "" {
 		port = defaultPort
 	}
 
-	repo := database.NewRepository("mongodb://localhost:27017")
-	service := users.NewService(repo)
+	mongoUrl, mongoDatabase := config.GetMongoUrlAndDatabase()
+	service := users.NewService(database.NewRepository(mongoUrl, mongoDatabase))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/graph"))
 	http.Handle("/graph", handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{Service: &service}})))
