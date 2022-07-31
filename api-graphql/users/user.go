@@ -1,7 +1,7 @@
 package users
 
 type User struct {
-	ID        string
+	ID        string `bson:"_id"`
 	Email     string
 	Name      string
 	BirthDate string

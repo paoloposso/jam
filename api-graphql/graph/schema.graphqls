@@ -25,12 +25,9 @@ input LocationInput {
 }
 
 type Query {
-  user(id:ID!): User
-  # pogues: [Character]!
-  # kooks: [Character]!
+  user(email: String): User
 }
 
 type Mutation {
   insertUser(input: UserInsertInput!): String
-  getUserByEmail(email: String): User
 }
