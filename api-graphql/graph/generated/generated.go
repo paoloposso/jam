@@ -266,8 +266,6 @@ input LocationInput {
 
 type Query {
   user(email: String): User
-  # pogues: [Character]!
-  # kooks: [Character]!
 }
 
 type Mutation {
