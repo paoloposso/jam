@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    ports: 
+      - 27017:27017
+    networks:
+      - mongo-compose-network
+  graph-api:
+    depends_on:
+      - mongo
+    build: 
+      dockerfile: dockerfile
+    ports: 
+      - 8080:8080
+    env_file:
+      - .env
+    links:
+      - mongo
+    networks:
+      - mongo-compose-network
+
+networks: 
+    mongo-compose-network:
+      driver: bridge
