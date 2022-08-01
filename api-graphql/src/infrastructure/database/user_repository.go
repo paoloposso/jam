@@ -1,7 +1,7 @@
 package database
 
 import (
-	"api-graphql/users"
+	"api-graphql/src/users"
 	"context"
 	"log"
 

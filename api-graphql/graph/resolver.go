@@ -1,7 +1,7 @@
 package graph
 
 import (
-	"api-graphql/users"
+	"api-graphql/src/users"
 )
 
 type Resolver struct {

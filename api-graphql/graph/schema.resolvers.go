@@ -6,7 +6,7 @@ package graph
 import (
 	"api-graphql/graph/generated"
 	"api-graphql/graph/model"
-	"api-graphql/users"
+	"api-graphql/src/users"
 	"context"
 )
 

@@ -4,8 +4,8 @@ import (
 	"api-graphql/config"
 	"api-graphql/graph"
 	"api-graphql/graph/generated"
-	"api-graphql/infrastructure/database"
-	"api-graphql/users"
+	"api-graphql/src/infrastructure/database"
+	"api-graphql/src/users"
 	"log"
 	"net/http"
 
@@ -18,6 +18,8 @@ const defaultPort = "8080"
 
 func main() {
 	_ = godotenv.Load()
+
+	log.Print("Starting server")
 
 	port := config.GetPort()
 	if port == "" {
