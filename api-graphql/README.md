@@ -1,13 +1,16 @@
 # jam
 
-##create and update
+## create and update graphql models and resolvers
 go run github.com/99designs/gqlgen init
 go run github.com/99designs/gqlgen generate
 
-##run
+## running
 go run server.go
 
-##.env file
+## unit testing
+go test $(go list ./... | grep -v /tools)
+
+## .env file
 MONGO_URL="mongodb://localhost:27017"
 MONGO_DATABASE="database_name_example"
 ENV=DEV
