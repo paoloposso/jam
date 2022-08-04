@@ -1,18 +1,11 @@
-<ion-header>
-    <ion-toolbar color="secondary">
-        <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"  (ionClear)="clearAutocomplete()"></ion-searchbar>
-    </ion-toolbar>
+<ion-row>
+    <ion-item lines="full">
+        <ion-searchbar debounce="100" [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" 
+            placeholder="Search for a place" (ionClear)="clearAutocomplete()"></ion-searchbar>
+    </ion-item>
     <ion-list [hidden]="autocompleteItems.length == 0">
         <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
             {{ item.description }}
         </ion-item>
     </ion-list>
-    <ion-row>    
-        <ion-col size="12">
-        <ion-button (click)="getCoordinates()" shape="round" fill="outline">
-            <ion-icon slot="start" name="locate"></ion-icon>
-              My Location
-            </ion-button>
-        </ion-col>
-    </ion-row>
-</ion-header>
+</ion-row>
