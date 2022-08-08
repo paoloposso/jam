@@ -39,8 +39,8 @@ func NewRepository(url string, databaseName string) *UserRepository {
 	return &UserRepository{client: client, database: databaseName}
 }
 
-func (this UserRepository) Insert(user users.User) (id string, err error) {
-	col := this.client.Database(this.database).Collection(collection)
+func (repo UserRepository) Insert(user users.User) (id string, err error) {
+	col := repo.client.Database(repo.database).Collection(collection)
 
 	result, err := col.InsertOne(context.Background(), user)
 
@@ -50,8 +50,8 @@ func (this UserRepository) Insert(user users.User) (id string, err error) {
 	return objectIdToString(*result), nil
 }
 
-func (this UserRepository) GetByEmail(email string) (*users.User, error) {
-	col := this.client.Database(this.database).Collection(collection)
+func (repo UserRepository) GetByEmail(email string) (*users.User, error) {
+	col := repo.client.Database(repo.database).Collection(collection)
 	filter := bson.D{{Key: "email", Value: email}}
 	var result users.User
 
@@ -63,8 +63,8 @@ func (this UserRepository) GetByEmail(email string) (*users.User, error) {
 	return &result, nil
 }
 
-func (this UserRepository) Update(user users.User) error {
-	col := this.client.Database(this.database).Collection(collection)
+func (repo UserRepository) Update(user users.User) error {
+	col := repo.client.Database(repo.database).Collection(collection)
 
 	_, err := col.UpdateByID(context.Background(), user.ID, user)
 

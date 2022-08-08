@@ -12,7 +12,7 @@ func NewService(repository Repository) Service {
 	return Service{repository: repository}
 }
 
-func (this Service) InsertUser(user User) (id string, err error) {
+func (service Service) InsertUser(user User) (id string, err error) {
 	if user.Email == "" {
 		return "", errors.New("email is required")
 	}
@@ -22,12 +22,12 @@ func (this Service) InsertUser(user User) (id string, err error) {
 	if user.BirthDate == "" {
 		return "", errors.New("birthdate is required")
 	}
-	return this.repository.Insert(user)
+	return service.repository.Insert(user)
 }
 
-func (this Service) GetByEmail(email string) (user *User, err error) {
+func (service Service) GetByEmail(email string) (user *User, err error) {
 	if email == "" {
 		return nil, errors.New("email is required")
 	}
-	return this.repository.GetByEmail(email)
+	return service.repository.GetByEmail(email)
 }

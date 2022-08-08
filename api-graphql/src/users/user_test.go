@@ -52,15 +52,15 @@ func TestInsertWhenEmailIsBlank(t *testing.T) {
 type RepositoryMock struct {
 }
 
-func (this *RepositoryMock) Insert(user User) (id string, err error) {
+func (r *RepositoryMock) Insert(user User) (id string, err error) {
 	return "", nil
 }
 
-func (this *RepositoryMock) Update(user User) error {
+func (r *RepositoryMock) Update(user User) error {
 	return errors.New("not implemented")
 }
 
-func (this *RepositoryMock) GetByEmail(email string) (*User, error) {
+func (r *RepositoryMock) GetByEmail(email string) (*User, error) {
 
 	usersList := []User{
 		{Email: "pvictorsys@gmail.com", ID: "ASD1234", Name: "Paolo"},
