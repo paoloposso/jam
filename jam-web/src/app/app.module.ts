@@ -12,9 +12,11 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { ApolloModule } from 'apollo-angular';
+
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, GoogleMapsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, GoogleMapsModule, ApolloModule],
   providers: [
     StatusBar,
     SplashScreen,

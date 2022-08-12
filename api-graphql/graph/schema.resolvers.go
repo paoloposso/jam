@@ -8,10 +8,13 @@ import (
 	"api-graphql/graph/model"
 	"api-graphql/src/users"
 	"context"
+	"log"
 )
 
 // InsertUser is the resolver for the insertUser field.
 func (r *mutationResolver) InsertUser(ctx context.Context, input model.UserInsertInput) (*string, error) {
+	log.Printf("Received UserInput %v", *input.Name)
+
 	user := users.User{
 		Email:     *input.Email,
 		Name:      *input.Name,
@@ -21,6 +24,7 @@ func (r *mutationResolver) InsertUser(ctx context.Context, input model.UserInser
 			Longitude: *input.Location.Longitude,
 		},
 	}
+
 	result, err := r.Resolver.Service.InsertUser(user)
 	if err != nil {
 		return nil, err
