@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strings"
 	"testing"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func TestGetUserByEmail(t *testing.T) {
@@ -62,8 +64,8 @@ func (r *RepositoryMock) Update(user User) error {
 
 func (r *RepositoryMock) GetByEmail(email string) (*User, error) {
 
-	usersList := []User{
-		{Email: "pvictorsys@gmail.com", ID: "ASD1234", Name: "Paolo"},
+	usersList := [...]User{
+		{Email: "pvictorsys@gmail.com", ID: primitive.NewObjectID(), Name: "Paolo"},
 	}
 
 	for i := 0; i < len(usersList); i++ {

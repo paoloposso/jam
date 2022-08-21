@@ -9,8 +9,10 @@ go run server.go
 
 ## unit testing
 go test $(go list ./... | grep -v /tools)
+or
+go test ./src/...
 
-## .env file
+## .env file (example)
 MONGO_URL="mongodb://localhost:27017"
 MONGO_DATABASE="database_name_example"
 ENV=DEV
