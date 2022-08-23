@@ -38,9 +38,7 @@ func (r *queryResolver) User(ctx context.Context, email *string) (*model.User, e
 	if err != nil {
 		return nil, err
 	}
-
 	userId := user.ID.Hex()
-
 	result := model.User{
 		Name:      &user.Name,
 		Location:  &model.Location{Latitude: &user.Location.Latitude, Longitude: &user.Location.Longitude},

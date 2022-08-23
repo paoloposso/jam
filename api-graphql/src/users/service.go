@@ -2,8 +2,6 @@ package users
 
 import (
 	"errors"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Service struct {
@@ -24,7 +22,6 @@ func (service Service) InsertUser(user User) (id string, err error) {
 	if user.BirthDate == "" {
 		return "", errors.New("birthdate is required")
 	}
-	user.ID = primitive.NewObjectID()
 	return service.repository.Insert(user)
 }
 
@@ -33,4 +30,11 @@ func (service Service) GetByEmail(email string) (user *User, err error) {
 		return nil, errors.New("email is required")
 	}
 	return service.repository.GetByEmail(email)
+}
+
+func (service Service) GetById(id string) (user *User, err error) {
+	if id == "" {
+		return nil, errors.New("email is required")
+	}
+	return service.repository.GetByEmail(id)
 }

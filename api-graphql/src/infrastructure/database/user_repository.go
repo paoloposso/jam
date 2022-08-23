@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -22,9 +23,7 @@ func NewRepository(url string, databaseName string) *UserRepository {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	col := client.Database(databaseName).Collection(collection)
-
 	_, err = col.Indexes().CreateOne(
 		context.Background(),
 		mongo.IndexModel{
@@ -41,9 +40,8 @@ func NewRepository(url string, databaseName string) *UserRepository {
 
 func (repo UserRepository) Insert(user users.User) (id string, err error) {
 	col := repo.client.Database(repo.database).Collection(collection)
-
+	user.ID = primitive.NewObjectID()
 	result, err := col.InsertOne(context.Background(), user)
-
 	if err != nil {
 		return "", err
 	}
@@ -54,9 +52,18 @@ func (repo UserRepository) GetByEmail(email string) (*users.User, error) {
 	col := repo.client.Database(repo.database).Collection(collection)
 	filter := bson.D{{Key: "email", Value: email}}
 	var result users.User
-
 	err := col.FindOne(context.Background(), filter).Decode(&result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
 
+func (repo UserRepository) GetById(id string) (*users.User, error) {
+	col := repo.client.Database(repo.database).Collection(collection)
+	filter := bson.D{{Key: "_id", Value: id}}
+	var result users.User
+	err := col.FindOne(context.Background(), filter).Decode(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -65,8 +72,6 @@ func (repo UserRepository) GetByEmail(email string) (*users.User, error) {
 
 func (repo UserRepository) Update(user users.User) error {
 	col := repo.client.Database(repo.database).Collection(collection)
-
 	_, err := col.UpdateByID(context.Background(), user.ID, user)
-
 	return err
 }

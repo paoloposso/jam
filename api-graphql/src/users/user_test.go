@@ -23,9 +23,7 @@ func TestGetUserByEmail(t *testing.T) {
 
 func TestGetUserByEmailWithEmailBlank(t *testing.T) {
 	service := NewService(&RepositoryMock{})
-
 	_, err := service.GetByEmail("")
-
 	if err == nil {
 		t.Fail()
 	}
@@ -33,9 +31,7 @@ func TestGetUserByEmailWithEmailBlank(t *testing.T) {
 
 func TestGetNilWhenEmailDoesntExist(t *testing.T) {
 	service := NewService(&RepositoryMock{})
-
 	user, _ := service.GetByEmail("inexistent@gmail.com")
-
 	if user != nil {
 		t.Fail()
 	}
@@ -43,9 +39,7 @@ func TestGetNilWhenEmailDoesntExist(t *testing.T) {
 
 func TestInsertWhenEmailIsBlank(t *testing.T) {
 	service := NewService(&RepositoryMock{})
-
 	_, err := service.InsertUser(User{Email: "", Name: "", BirthDate: ""})
-
 	if err == nil || !strings.Contains(err.Error(), "required") {
 		t.Fail()
 	}
@@ -63,16 +57,25 @@ func (r *RepositoryMock) Update(user User) error {
 }
 
 func (r *RepositoryMock) GetByEmail(email string) (*User, error) {
-
 	usersList := [...]User{
 		{Email: "pvictorsys@gmail.com", ID: primitive.NewObjectID(), Name: "Paolo"},
 	}
-
 	for i := 0; i < len(usersList); i++ {
 		if usersList[i].Email == email {
 			return &usersList[i], nil
 		}
 	}
+	return nil, nil
+}
 
+func (r *RepositoryMock) GetById(id string) (*User, error) {
+	usersList := [...]User{
+		{Email: "pvictorsys@gmail.com", ID: primitive.NewObjectID(), Name: "Paolo"},
+	}
+	for i := 0; i < len(usersList); i++ {
+		if usersList[i].ID.Hex() == id {
+			return &usersList[i], nil
+		}
+	}
 	return nil, nil
 }
