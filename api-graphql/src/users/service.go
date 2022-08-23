@@ -36,5 +36,5 @@ func (service Service) GetById(id string) (user *User, err error) {
 	if id == "" {
 		return nil, errors.New("email is required")
 	}
-	return service.repository.GetByEmail(id)
+	return service.repository.GetById(id)
 }

@@ -45,6 +45,17 @@ func TestInsertWhenEmailIsBlank(t *testing.T) {
 	}
 }
 
+func TestGetUserById(t *testing.T) {
+	service := NewService(&RepositoryMock{})
+	user, err := service.GetById("630558ae2ce333d84361e635")
+	if err != nil {
+		t.Fail()
+	}
+	if user == nil || user.Email == "" {
+		t.Fail()
+	}
+}
+
 type RepositoryMock struct {
 }
 
@@ -69,8 +80,9 @@ func (r *RepositoryMock) GetByEmail(email string) (*User, error) {
 }
 
 func (r *RepositoryMock) GetById(id string) (*User, error) {
+	objectId, _ := primitive.ObjectIDFromHex("630558ae2ce333d84361e635")
 	usersList := [...]User{
-		{Email: "pvictorsys@gmail.com", ID: primitive.NewObjectID(), Name: "Paolo"},
+		{Email: "pvictorsys@gmail.com", ID: objectId, Name: "Paolo"},
 	}
 	for i := 0; i < len(usersList); i++ {
 		if usersList[i].ID.Hex() == id {
