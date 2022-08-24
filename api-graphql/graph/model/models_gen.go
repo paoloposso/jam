@@ -12,6 +12,14 @@ type LocationInput struct {
 	Longitude *float64 `json:"longitude"`
 }
 
+type MusicalEvent struct {
+	ID          *string   `json:"id"`
+	Name        *string   `json:"name"`
+	Description *string   `json:"description"`
+	Location    *Location `json:"location"`
+	CreatorID   *string   `json:"creatorID"`
+}
+
 type User struct {
 	ID          *string   `json:"id"`
 	BirthDate   string    `json:"birthDate"`

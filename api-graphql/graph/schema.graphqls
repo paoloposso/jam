@@ -7,6 +7,14 @@ type User {
   instruments: [String]!
 }
 
+type MusicalEvent {
+  id: ID
+  name: String
+  description: String
+  location: Location!
+  creatorID: ID
+}
+
 type Location {
   latitude: Float
   longitude: Float

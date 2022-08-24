@@ -48,6 +48,14 @@ type ComplexityRoot struct {
 		Longitude func(childComplexity int) int
 	}
 
+	MusicalEvent struct {
+		CreatorID   func(childComplexity int) int
+		Description func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Location    func(childComplexity int) int
+		Name        func(childComplexity int) int
+	}
+
 	Mutation struct {
 		InsertUser func(childComplexity int, input model.UserInsertInput) int
 	}
@@ -101,6 +109,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Location.Longitude(childComplexity), true
+
+	case "MusicalEvent.creatorID":
+		if e.complexity.MusicalEvent.CreatorID == nil {
+			break
+		}
+
+		return e.complexity.MusicalEvent.CreatorID(childComplexity), true
+
+	case "MusicalEvent.description":
+		if e.complexity.MusicalEvent.Description == nil {
+			break
+		}
+
+		return e.complexity.MusicalEvent.Description(childComplexity), true
+
+	case "MusicalEvent.id":
+		if e.complexity.MusicalEvent.ID == nil {
+			break
+		}
+
+		return e.complexity.MusicalEvent.ID(childComplexity), true
+
+	case "MusicalEvent.location":
+		if e.complexity.MusicalEvent.Location == nil {
+			break
+		}
+
+		return e.complexity.MusicalEvent.Location(childComplexity), true
+
+	case "MusicalEvent.name":
+		if e.complexity.MusicalEvent.Name == nil {
+			break
+		}
+
+		return e.complexity.MusicalEvent.Name(childComplexity), true
 
 	case "Mutation.insertUser":
 		if e.complexity.Mutation.InsertUser == nil {
@@ -245,6 +288,14 @@ var sources = []*ast.Source{
   email: String
   location: Location!
   instruments: [String]!
+}
+
+type MusicalEvent {
+  id: ID
+  name: String
+  description: String
+  location: Location!
+  creatorID: ID
 }
 
 type Location {
@@ -438,6 +489,220 @@ func (ec *executionContext) fieldContext_Location_longitude(ctx context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MusicalEvent_id(ctx context.Context, field graphql.CollectedField, obj *model.MusicalEvent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MusicalEvent_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MusicalEvent_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MusicalEvent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MusicalEvent_name(ctx context.Context, field graphql.CollectedField, obj *model.MusicalEvent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MusicalEvent_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MusicalEvent_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MusicalEvent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MusicalEvent_description(ctx context.Context, field graphql.CollectedField, obj *model.MusicalEvent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MusicalEvent_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MusicalEvent_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MusicalEvent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MusicalEvent_location(ctx context.Context, field graphql.CollectedField, obj *model.MusicalEvent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MusicalEvent_location(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Location, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Location)
+	fc.Result = res
+	return ec.marshalNLocation2ᚖapiᚑgraphqlᚋgraphᚋmodelᚐLocation(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MusicalEvent_location(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MusicalEvent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "latitude":
+				return ec.fieldContext_Location_latitude(ctx, field)
+			case "longitude":
+				return ec.fieldContext_Location_longitude(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Location", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MusicalEvent_creatorID(ctx context.Context, field graphql.CollectedField, obj *model.MusicalEvent) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MusicalEvent_creatorID(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatorID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MusicalEvent_creatorID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MusicalEvent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2837,6 +3102,50 @@ func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet,
 		case "longitude":
 
 			out.Values[i] = ec._Location_longitude(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var musicalEventImplementors = []string{"MusicalEvent"}
+
+func (ec *executionContext) _MusicalEvent(ctx context.Context, sel ast.SelectionSet, obj *model.MusicalEvent) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, musicalEventImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MusicalEvent")
+		case "id":
+
+			out.Values[i] = ec._MusicalEvent_id(ctx, field, obj)
+
+		case "name":
+
+			out.Values[i] = ec._MusicalEvent_name(ctx, field, obj)
+
+		case "description":
+
+			out.Values[i] = ec._MusicalEvent_description(ctx, field, obj)
+
+		case "location":
+
+			out.Values[i] = ec._MusicalEvent_location(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "creatorID":
+
+			out.Values[i] = ec._MusicalEvent_creatorID(ctx, field, obj)
 
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

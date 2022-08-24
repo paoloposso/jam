@@ -10,9 +10,7 @@ import (
 
 func TestGetUserByEmail(t *testing.T) {
 	service := NewService(&RepositoryMock{})
-
 	user, err := service.GetByEmail("pvictorsys@gmail.com")
-
 	if err != nil {
 		t.Error(err)
 	}
