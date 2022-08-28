@@ -1,7 +1,0 @@
-{
-  "name": "jam-web",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
