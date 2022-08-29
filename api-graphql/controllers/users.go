@@ -40,7 +40,7 @@ func (controller *UserController) getUserByEmail(c *gin.Context) {
 		}
 		c.IndentedJSON(http.StatusOK, user)
 	} else {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "e-mail is required"})
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "no parameters provided"})
 	}
 }
 
