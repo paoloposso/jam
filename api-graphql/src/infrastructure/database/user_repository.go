@@ -18,7 +18,7 @@ type UserRepository struct {
 	database string
 }
 
-func NewRepository(url string, databaseName string) *UserRepository {
+func NewUserRepository(url string, databaseName string) *UserRepository {
 	client, err := getClient(url)
 	if err != nil {
 		log.Fatal(err)

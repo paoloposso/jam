@@ -3,6 +3,8 @@ package main
 import (
 	"api-graphql/config"
 	"api-graphql/controllers"
+	"api-graphql/src/infrastructure/database"
+	"api-graphql/src/users"
 	"log"
 	"net/http"
 
@@ -21,7 +23,10 @@ func main() {
 		port = defaultPort
 	}
 	mongoUrl, databaseName := config.GetMongoUrlAndDatabase()
-	controllers.NewUserController(gin.Default(), mongoUrl, databaseName)
+	controllers.NewUserController(
+		router,
+		*users.NewService(database.NewUserRepository(mongoUrl, databaseName)),
+	)
 	router.Run("localhost:8080")
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
