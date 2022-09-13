@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from "@angular/forms";
 
 @Component({
   selector: 'app-profile',
@@ -8,21 +8,20 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 })
 export class ProfilePage implements OnInit {
 
-  ionicForm: FormGroup;
+  profileForm: FormGroup;
 
   constructor(public formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.profileForm = this.formBuilder.group({
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      gender: '',
+      instruments: new FormArray([])
+    });
   }
 
-  getDate(e) {
-    let date = new Date(e.target.value).toISOString().substring(0, 10);
-    this.ionicForm.get('dob').setValue(date, {
-       onlyself: true
-    })
-  }
-
-  submitForm() {
-    console.log(this.ionicForm.value)
+  onSubmit() {
+    alert(this.profileForm.get('name').value);
   }
 }

@@ -5,33 +5,37 @@
 </ion-header>
 
 <ion-content>
-  <form>
-    <!-- <ion-item lines="full">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" >
+    <ion-item lines="full">
       <ion-label position="floating">Name</ion-label>
       <ion-input formControlName="name" type="text" required></ion-input>
-    </ion-item> -->
+    </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" required></ion-input>
+      <ion-input formControlName="email" type="email" required></ion-input>
     </ion-item>
     <!-- Radio buttons -->
-    <ion-radio-group lines="full">
+    <ion-radio-group lines="full" formControlName="gender">
       <ion-list-header>
         <ion-label>Gender</ion-label>
       </ion-list-header>
       <ion-item>
         <ion-label>Male</ion-label>
-        <ion-radio slot="start" value="male" checked></ion-radio>
+        <ion-radio slot="start" value="male"></ion-radio>
       </ion-item>
       <ion-item>
         <ion-label>Female</ion-label>
         <ion-radio slot="start" value="female"></ion-radio>
       </ion-item>
+      <ion-item>
+        <ion-label>Other</ion-label>
+        <ion-radio slot="start" value="other"></ion-radio>
+      </ion-item>
     </ion-radio-group>
     <!-- Checkboxes -->
     <ion-list lines="full">
       <ion-list-header>
-        <ion-label>Instuments</ion-label>
+        <ion-label>Instruments</ion-label>
       </ion-list-header>
       <ion-item>
         <ion-label>Guitar</ion-label>
