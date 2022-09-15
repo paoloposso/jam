@@ -16,8 +16,11 @@ export class ProfilePage implements OnInit {
     this.profileForm = this.formBuilder.group({
       name: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
-      gender: '',
-      instruments: new FormArray([])
+      gender: new FormControl('', Validators.required),
+      guitar: new FormControl(false),
+      bass: new FormControl(false),
+      drums: new FormControl(false),
+      keyboard: new FormControl(false),
     });
   }
 
