@@ -1,10 +1,10 @@
 package main
 
 import (
-	"api-graphql/config"
-	"api-graphql/controllers"
-	"api-graphql/src/infrastructure/database"
-	"api-graphql/src/users"
+	"api/config"
+	"api/controllers"
+	"api/src/infrastructure/database"
+	"api/src/users"
 	"log"
 	"net/http"
 
@@ -16,7 +16,8 @@ const defaultPort = "8080"
 
 func main() {
 	_ = godotenv.Load()
-	router := gin.Default()
+	gin.SetMode(config.GetGinMode())
+	router := gin.New()
 	log.Print("Starting server")
 	port := config.GetPort()
 	if port == "" {

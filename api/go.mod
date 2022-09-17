@@ -1,4 +1,4 @@
-module api-graphql
+module api
 
 go 1.18
 

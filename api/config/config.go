@@ -9,3 +9,7 @@ func GetMongoUrlAndDatabase() (url string, database string) {
 func GetPort() string {
 	return os.Getenv("PORT")
 }
+
+func GetGinMode() string {
+	return os.Getenv("GIN_MODE")
+}

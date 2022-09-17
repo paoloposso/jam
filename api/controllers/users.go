@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"api-graphql/src/users"
+	"api/src/users"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
