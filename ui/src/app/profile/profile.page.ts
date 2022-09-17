@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from "@angular/forms";
+import { Profile } from './profile';
+import { ProfileService } from './profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +12,7 @@ export class ProfilePage implements OnInit {
 
   profileForm: FormGroup;
 
-  constructor(public formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private service: ProfileService) { }
 
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
@@ -25,6 +27,8 @@ export class ProfilePage implements OnInit {
   }
 
   onSubmit() {
-    alert(this.profileForm.get('name').value);
+    let m = new Profile();
+    m.name = "Paolo";
+    this.profileForm.patchValue(m);
   }
 }

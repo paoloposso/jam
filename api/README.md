@@ -17,3 +17,4 @@ MONGO_URL="mongodb://localhost:27017"
 MONGO_DATABASE="database_name_example"
 ENV=DEV
 PORT=8888
+GIN_MODE=debug
