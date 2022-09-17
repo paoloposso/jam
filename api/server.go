@@ -27,6 +27,6 @@ func main() {
 		router,
 		*users.NewService(database.NewUserRepository(mongoUrl, databaseName)),
 	)
-	router.Run("localhost:8080")
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Print("Listening on port ", port)
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
