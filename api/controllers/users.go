@@ -24,11 +24,11 @@ func (controller *UserController) getUser(c *gin.Context) {
 	user, err := controller.service.GetById(c.Param("id"))
 
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		handleHttpError(err, c)
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, user)
 }
 
 func (controller *UserController) getUserByEmail(c *gin.Context) {
@@ -36,25 +36,30 @@ func (controller *UserController) getUserByEmail(c *gin.Context) {
 		user, err := controller.service.GetById(email)
 
 		if err != nil {
-			c.IndentedJSON(GetHttpError(err))
+			handleHttpError(err, c)
 			return
 		}
-		c.IndentedJSON(http.StatusOK, user)
+		c.JSON(http.StatusOK, user)
 	} else {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "no parameters provided"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "no parameters provided"})
 	}
 }
 
 func (controller *UserController) create(c *gin.Context) {
 	var user users.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.IndentedJSON(GetHttpError(err))
+		handleHttpError(err, c)
 		return
 	}
 	result, err := controller.service.InsertUser(user)
 	if err != nil {
-		c.IndentedJSON(GetHttpError(err))
+		handleHttpError(err, c)
 		return
 	}
-	c.IndentedJSON(http.StatusCreated, result)
+	c.JSON(http.StatusCreated, result)
+}
+
+func handleHttpError(err error, c *gin.Context) {
+	code, message := GetHttpError(err)
+	c.JSON(code, gin.H{"error": message})
 }
