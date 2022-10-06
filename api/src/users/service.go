@@ -1,7 +1,7 @@
 package users
 
 import (
-	"errors"
+	customerrors "api/src/core/custom-errors"
 )
 
 type Service struct {
@@ -14,27 +14,27 @@ func NewService(repository Repository) *Service {
 
 func (service Service) InsertUser(user User) (id string, err error) {
 	if user.Email == "" {
-		return "", errors.New("email is required")
+		return "", customerrors.NewValidationError("email is required")
 	}
 	if user.Name == "" {
-		return "", errors.New("name is required")
+		return "", customerrors.NewValidationError("name is required")
 	}
 	if user.BirthDate == "" {
-		return "", errors.New("birthdate is required")
+		return "", customerrors.NewValidationError("birthdate is required")
 	}
 	return service.repository.Insert(user)
 }
 
 func (service Service) GetByEmail(email string) (user *User, err error) {
 	if email == "" {
-		return nil, errors.New("email is required")
+		return nil, customerrors.NewValidationError("email is required")
 	}
 	return service.repository.GetByEmail(email)
 }
 
 func (service Service) GetById(id string) (user *User, err error) {
 	if id == "" {
-		return nil, errors.New("email is required")
+		return nil, customerrors.NewValidationError("email is required")
 	}
 	return service.repository.GetById(id)
 }

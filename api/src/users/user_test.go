@@ -1,8 +1,8 @@
 package users
 
 import (
+	customerrors "api/src/core/custom-errors"
 	"errors"
-	"strings"
 	"testing"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -38,8 +38,9 @@ func TestGetNilWhenEmailDoesntExist(t *testing.T) {
 func TestInsertWhenEmailIsBlank(t *testing.T) {
 	service := NewService(&RepositoryMock{})
 	_, err := service.InsertUser(User{Email: "", Name: "", BirthDate: ""})
-	if err == nil || !strings.Contains(err.Error(), "required") {
-		t.Fail()
+	_, ok := err.(*customerrors.ValidationError)
+	if err == nil || !ok {
+		t.Fatal("Error should be of type ValidationError")
 	}
 }
 

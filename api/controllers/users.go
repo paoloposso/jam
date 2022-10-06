@@ -35,7 +35,7 @@ func (controller *UserController) getUserByEmail(c *gin.Context) {
 		user, err := controller.service.GetById(email)
 
 		if err != nil {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			c.IndentedJSON(GetHttpError(err))
 			return
 		}
 		c.IndentedJSON(http.StatusOK, user)
@@ -47,12 +47,12 @@ func (controller *UserController) getUserByEmail(c *gin.Context) {
 func (controller *UserController) create(c *gin.Context) {
 	var user users.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.IndentedJSON(GetHttpError(err))
 		return
 	}
 	result, err := controller.service.InsertUser(user)
 	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.IndentedJSON(GetHttpError(err))
 		return
 	}
 	c.IndentedJSON(http.StatusCreated, result)
