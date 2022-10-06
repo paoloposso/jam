@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from "@angular/forms";
-import { Profile } from './profile';
+import { Profile } from './models/profile';
 import { ProfileService } from './profile.service';
 
 @Component({
@@ -26,9 +26,16 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  onSubmit() {
-    let m = new Profile();
-    m.name = "Paolo";
-    this.profileForm.patchValue(m);
+  async onSubmit() {
+    let profile = new Profile();
+
+    profile.email = this.profileForm.get('email').value;
+    profile.name = this.profileForm.get('name').value;
+    profile.gender = this.profileForm.get('gender').value;
+
+    this.service.save(profile).subscribe(
+      p => console.log(p),
+      err => alert(err)
+    );
   }
 }
