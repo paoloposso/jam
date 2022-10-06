@@ -10,10 +10,16 @@
       <ion-label position="floating">Name</ion-label>
       <ion-input formControlName="name" type="text" required></ion-input>
     </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.required">
+      Name is required.
+    </span>
     <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
       <ion-input formControlName="email" type="email" required></ion-input>
     </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+      E-mail is required.
+    </span>
     <!-- Radio buttons -->
     <ion-radio-group lines="full" formControlName="gender">
       <ion-list-header>

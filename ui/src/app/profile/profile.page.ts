@@ -11,8 +11,11 @@ import { ProfileService } from './profile.service';
 export class ProfilePage implements OnInit {
 
   profileForm: FormGroup;
+  isSubmitted: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private service: ProfileService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private service: ProfileService) { }
 
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
@@ -26,16 +29,23 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  async onSubmit() {
-    let profile = new Profile();
+  onSubmit() {
+    this.isSubmitted = true;
+    if (this.profileForm.valid) {
+      let profile = new Profile();
 
-    profile.email = this.profileForm.get('email').value;
-    profile.name = this.profileForm.get('name').value;
-    profile.gender = this.profileForm.get('gender').value;
+      profile.email = this.profileForm.get('email').value;
+      profile.name = this.profileForm.get('name').value;
+      profile.gender = this.profileForm.get('gender').value;
 
-    this.service.save(profile).subscribe(
-      p => console.log(p),
-      err => alert(err)
-    );
+      this.service.save(profile).subscribe(
+        p => console.log(p),
+        err => alert(err)
+      );
+    }
+  }
+
+  get errorControl() {
+    return this.profileForm.controls;
   }
 }
