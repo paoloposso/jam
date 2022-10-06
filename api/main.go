@@ -1,13 +1,14 @@
 package main
 
 import (
-	"api/config"
-	"api/controllers"
-	"api/src/infrastructure/database"
-	"api/src/users"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/paoloposso/jam/api/config"
+	"github.com/paoloposso/jam/api/controllers"
+	"github.com/paoloposso/jam/api/src/infrastructure/database"
+	"github.com/paoloposso/jam/api/src/users"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
