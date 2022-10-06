@@ -1,9 +1,10 @@
 package database
 
 import (
-	"api/src/users"
 	"context"
 	"log"
+
+	"github.com/paoloposso/jam/api/src/users"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

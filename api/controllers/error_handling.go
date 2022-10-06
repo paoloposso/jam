@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	customerrors "api/src/core/custom-errors"
 	"net/http"
+
+	customerrors "github.com/paoloposso/jam/api/src/core/custom-errors"
 )
 
 func GetHttpError(err error) (httpCode int, message string) {

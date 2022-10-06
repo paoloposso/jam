@@ -1,4 +1,4 @@
-module api
+module github.com/paoloposso/jam/api
 
 go 1.18
 

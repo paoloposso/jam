@@ -1,7 +1,7 @@
 package users
 
 import (
-	customerrors "api/src/core/custom-errors"
+	customerrors "github.com/paoloposso/jam/api/src/core/custom-errors"
 )
 
 type Service struct {

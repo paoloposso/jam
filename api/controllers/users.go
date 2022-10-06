@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"api/src/users"
 	"net/http"
+
+	"github.com/paoloposso/jam/api/src/users"
 
 	"github.com/gin-gonic/gin"
 )
