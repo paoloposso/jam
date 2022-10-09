@@ -1,11 +1,11 @@
-package customerrors
+package errors
 
 type ValidationError struct {
 	s string
 }
 
-func NewValidationError(text string) *ValidationError {
-	return &ValidationError{text}
+func CreateValidationError(message string) *ValidationError {
+	return &ValidationError{message}
 }
 
 func (e *ValidationError) Error() string {
