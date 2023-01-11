@@ -26,10 +26,9 @@ export class ProfileService {
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
-      // Erro ocorreu no lado do client
       errorMessage = error.error.message;
     } else {
-      // Erro ocorreu no lado do servidor
+      // server side error
       errorMessage = `Error code: ${error.status}, message: ${error.message}`;
     }
     console.log(errorMessage);
