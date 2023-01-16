@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -7,20 +8,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPage implements OnInit {
 
-  // registerForm: FormGroup;
+  registerForm: FormGroup;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    // this.registerForm = this.formBuilder.group({
-    //   name: new FormControl('', Validators.required),
-    //   email: new FormControl('', Validators.required),
-    //   gender: new FormControl('', Validators.required),
-    //   guitar: new FormControl(false),
-    //   bass: new FormControl(false),
-    //   drums: new FormControl(false),
-    //   keyboard: new FormControl(false),
-    // });
+    this.registerForm = this.formBuilder.group({
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      passwordConfirm: new FormControl('', Validators.required),
+    });
   }
 
+  onSubmit() {
+    alert('OK');
+    // this.isSubmitted = true;
+    // if (this.profileForm.valid) {
+    //   let profile = new Profile();
+
+    //   profile.email = this.profileForm.get('email').value;
+    //   profile.name = this.profileForm.get('name').value;
+    //   profile.gender = this.profileForm.get('gender').value;
+
+    //   this.service.save(profile).subscribe(
+    //     p => console.log(p),
+    //     err => alert(err)
+    //   );
+    // }
+  }
 }
