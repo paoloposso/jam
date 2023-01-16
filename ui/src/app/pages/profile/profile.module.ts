@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePage } from './profile.page';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProfileService } from './profile.service';
+import { ProfileService } from '../../services/profile.service';
 
 @NgModule({
   imports: [

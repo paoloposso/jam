@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from './login.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -8,17 +8,17 @@ import { LoginService } from './login.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  user: string;
-  pass: string;
+  email: string;
+  password: string;
 
   constructor(private service: LoginService, private router: Router) {}
 
   ngOnInit() {}
 
   loginUser(){
-    this.service.login(this.user, this.pass);
-    this.user = "";
-    this.pass = "";
+    this.service.login(this.email, this.password);
+    this.email = "";
+    this.password = "";
   }
 
   register(){

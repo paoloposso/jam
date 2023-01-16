@@ -7,7 +7,7 @@ export class LoginService {
 
   constructor() { }
 
-  login(user: string, pass: string): void {
+  login(email: string, password: string): void {
   }
 
   isLoggedIn() : boolean {
