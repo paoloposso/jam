@@ -17,6 +17,12 @@ export class ProfileService {
 
   constructor(private httpClient: HttpClient) { }
 
+  saveBasicData(email: string, name: string, password: string): Observable<Profile> {
+    return this.httpClient
+      .post<Profile>(this.url, {email, name, password}, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
   save(profile: Profile): Observable<Profile> {
     return this.httpClient
       .post<Profile>(this.url, profile, this.httpOptions)
