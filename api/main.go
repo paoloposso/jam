@@ -42,6 +42,15 @@ func main() {
 		router,
 		*users.NewService(database.NewUserRepository(mongoUrl, databaseName)),
 	)
+
+	router.GET("/is-alive", func(ctx *gin.Context) { ctx.JSON(http.StatusOK, "Service available") })
+
 	log.Print("Listening on port ", port)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Print("Health check on /is-alive")
+
+	err := http.ListenAndServe(":"+port, router)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
