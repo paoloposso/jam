@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	customerrors "github.com/paoloposso/jam/api/src/core/custom-errors"
+	customerrors "github.com/paoloposso/jam/src/core/custom-errors"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
