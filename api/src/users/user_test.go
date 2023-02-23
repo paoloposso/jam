@@ -5,8 +5,6 @@ import (
 	"testing"
 
 	customerrors "github.com/paoloposso/jam/src/core/custom-errors"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func TestGetUserByEmail(t *testing.T) {
@@ -69,7 +67,7 @@ func (r *RepositoryMock) Update(user User) error {
 
 func (r *RepositoryMock) GetByEmail(email string) (*User, error) {
 	usersList := [...]User{
-		{Email: "pvictorsys@gmail.com", ID: primitive.NewObjectID(), Name: "Paolo"},
+		{Email: "pvictorsys@gmail.com", ID: "630558ae2ce333d84361e635", Name: "Paolo"},
 	}
 	for i := 0; i < len(usersList); i++ {
 		if usersList[i].Email == email {
@@ -80,12 +78,11 @@ func (r *RepositoryMock) GetByEmail(email string) (*User, error) {
 }
 
 func (r *RepositoryMock) GetById(id string) (*User, error) {
-	objectId, _ := primitive.ObjectIDFromHex("630558ae2ce333d84361e635")
 	usersList := [...]User{
-		{Email: "pvictorsys@gmail.com", ID: objectId, Name: "Paolo"},
+		{Email: "pvictorsys@gmail.com", ID: "630558ae2ce333d84361e635", Name: "Paolo"},
 	}
 	for i := 0; i < len(usersList); i++ {
-		if usersList[i].ID.Hex() == id {
+		if usersList[i].ID == id {
 			return &usersList[i], nil
 		}
 	}

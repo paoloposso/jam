@@ -3,13 +3,12 @@ package main
 import (
 	"log"
 
-	"github.com/paoloposso/jam/src/infrastructure"
+	database "github.com/paoloposso/jam/src/infrastructure/dynamodb"
 	musicalevents "github.com/paoloposso/jam/src/musical_events"
 )
 
 func main() {
-
-	repo, err := infrastructure.NewRepository()
+	repo, err := database.NewRepository()
 
 	if err != nil {
 		log.Fatalf("Error creating repo: %v", err)
