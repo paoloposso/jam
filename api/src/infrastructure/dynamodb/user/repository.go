@@ -29,7 +29,7 @@ func NewUserRepository() (*UserRepository, error) {
 func (repo *UserRepository) Insert(item users.User) error {
 	svc := dynamodb.New(repo.session)
 
-	attributeValue, err := dynamodbattribute.MarshalMap(UserModel{
+	valuesMap, err := dynamodbattribute.MarshalMap(UserModel{
 		Email:     item.Email,
 		PK:        "USER#" + item.ID,
 		SK:        "USER#" + item.ID,
@@ -42,7 +42,7 @@ func (repo *UserRepository) Insert(item users.User) error {
 	}
 
 	input := &dynamodb.PutItemInput{
-		Item:      attributeValue,
+		Item:      valuesMap,
 		TableName: aws.String(tableName),
 	}
 
