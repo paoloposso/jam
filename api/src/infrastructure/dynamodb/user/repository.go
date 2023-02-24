@@ -1,54 +1,108 @@
 package user
 
 import (
-	"fmt"
+	"context"
+	"errors"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/paoloposso/jam/src/users"
 )
 
 const tableName string = "jam-users"
 
 type UserRepository struct {
-	session *session.Session
+	client *dynamodb.Client
 }
 
 func NewUserRepository() (*UserRepository, error) {
-	sess := session.Must(session.NewSessionWithOptions(session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-	}))
+	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	svc := dynamodb.NewFromConfig(cfg)
 
 	return &UserRepository{
-		session: sess,
+		client: svc,
 	}, nil
 }
 
-func (repo *UserRepository) Insert(item users.User) error {
-	svc := dynamodb.New(repo.session)
+func (repo *UserRepository) Insert(user users.User) (err error) {
+	err = repo.insertUserCredentials(user)
 
-	valuesMap, err := dynamodbattribute.MarshalMap(UserModel{
-		Email:     item.Email,
-		PK:        "USER#" + item.ID,
-		SK:        "USER#" + item.ID,
-		BirthDate: item.BirthDate,
-		Name:      item.Name,
+	if err != nil {
+		return err
+	}
+
+	err = repo.insertUserInfo(user)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *UserRepository) insertUserInfo(user users.User) error {
+	valuesMap, err := attributevalue.MarshalMap(UserInfoModel{
+		Email:     user.Email,
+		PK:        "USER#" + user.ID,
+		SK:        "USER#" + user.ID,
+		BirthDate: user.BirthDate,
+		Name:      user.Name,
 	})
 
 	if err != nil {
 		return err
 	}
 
-	input := &dynamodb.PutItemInput{
-		Item:      valuesMap,
-		TableName: aws.String(tableName),
+	_, err = repo.client.PutItem(
+		context.TODO(),
+		&dynamodb.PutItemInput{
+			Item:      valuesMap,
+			TableName: aws.String(tableName),
+		})
+
+	return nil
+}
+
+func (repo *UserRepository) insertUserCredentials(user users.User) error {
+	output, err := repo.client.GetItem(
+		context.TODO(),
+		&dynamodb.GetItemInput{
+			Key: map[string]types.AttributeValue{
+				"PK": &types.AttributeValueMemberS{Value: "ULOGIN#" + user.Email},
+				"SK": &types.AttributeValueMemberS{Value: "ULOGIN#" + user.Email},
+			},
+			TableName: aws.String(tableName),
+		})
+
+	if output.Item != nil {
+		return errors.New("E-mail already exists")
 	}
 
-	fds, err := svc.PutItem(input)
+	valuesMap, err := attributevalue.MarshalMap(UserLogin{
+		PK:       "ULOGIN#" + user.Email,
+		SK:       "ULOGIN#" + user.Email,
+		UserID:   user.ID,
+		Password: user.Password,
+	})
 
-	fmt.Printf("%v", fds)
+	if err != nil {
+		return err
+	}
+
+	_, err = repo.client.PutItem(
+		context.TODO(),
+		&dynamodb.PutItemInput{
+			Item:      valuesMap,
+			TableName: aws.String(tableName),
+		})
 
 	return nil
 }

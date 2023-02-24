@@ -8,6 +8,7 @@ type User struct {
 	Name      string
 	Location  Location
 	BirthDate *time.Time
+	Password  string
 }
 
 type Location struct {

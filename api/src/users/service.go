@@ -1,7 +1,8 @@
 package users
 
 import (
-	errors "github.com/paoloposso/jam/src/core/custom-errors"
+	"github.com/paoloposso/jam/src/core"
+	errors "github.com/paoloposso/jam/src/core/custom_errors"
 )
 
 type Service struct {
@@ -12,12 +13,24 @@ func NewService(repository Repository) *Service {
 	return &Service{repository: repository}
 }
 
-func (service Service) InsertUser(user User) error {
+func (service Service) CreateUser(user User) error {
+	err := validateUser(user)
+	if err != nil {
+		return err
+	}
+	user.ID = core.GetRandomId()
+	return service.repository.Insert(user)
+}
+
+func validateUser(user User) error {
 	if user.Email == "" {
-		return errors.CreateValidationError("email is required")
+		return errors.CreateValidationError("Email is required")
 	}
 	if user.Name == "" {
-		return errors.CreateValidationError("name is required")
+		return errors.CreateValidationError("Name is required")
 	}
-	return service.repository.Insert(user)
+	if user.Password == "" {
+		return errors.CreateValidationError("Password is required")
+	}
+	return nil
 }

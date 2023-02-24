@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -16,8 +17,11 @@ func main() {
 	}
 
 	service := users.NewService(repo)
-
 	tm, err := time.Parse("2006-01-02", "1988-02-05")
 
-	service.InsertUser(users.User{ID: "aaaaa", Email: "pvictorsys@gmail.com", Name: "Paolo Test", BirthDate: &tm})
+	err = service.CreateUser(users.User{Email: "pvictorsys@gmail.com", Password: "1234", Name: "Paolo Test", BirthDate: &tm})
+
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+	}
 }
