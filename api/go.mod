@@ -11,6 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.18.5
 	github.com/google/uuid v1.3.0
 	github.com/valyala/fastjson v1.6.4
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
 )
 
 require (

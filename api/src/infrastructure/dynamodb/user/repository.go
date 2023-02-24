@@ -2,13 +2,14 @@ package user
 
 import (
 	"context"
-	"errors"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/paoloposso/jam/src/core"
+	customerrors "github.com/paoloposso/jam/src/core/custom_errors"
 	"github.com/paoloposso/jam/src/users"
 )
 
@@ -83,14 +84,20 @@ func (repo *UserRepository) insertUserCredentials(user users.User) error {
 		})
 
 	if output.Item != nil {
-		return errors.New("E-mail already exists")
+		return customerrors.CreateArgumentError("E-mail already exists")
+	}
+
+	hashed, err := core.HashPassword(user.Password)
+
+	if err != nil {
+		return err
 	}
 
 	valuesMap, err := attributevalue.MarshalMap(UserLogin{
 		PK:       "ULOGIN#" + user.Email,
 		SK:       "ULOGIN#" + user.Email,
 		UserID:   user.ID,
-		Password: user.Password,
+		Password: hashed,
 	})
 
 	if err != nil {
