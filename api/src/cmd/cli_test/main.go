@@ -2,19 +2,22 @@ package main
 
 import (
 	"log"
+	"time"
 
-	database "github.com/paoloposso/jam/src/infrastructure/dynamodb"
-	musicalevents "github.com/paoloposso/jam/src/musical_events"
+	userrepo "github.com/paoloposso/jam/src/infrastructure/dynamodb/user"
+	"github.com/paoloposso/jam/src/users"
 )
 
 func main() {
-	repo, err := database.NewRepository()
+	repo, err := userrepo.NewUserRepository()
 
 	if err != nil {
 		log.Fatalf("Error creating repo: %v", err)
 	}
 
-	service := musicalevents.NewService(repo)
+	service := users.NewService(repo)
 
-	service.CreateEvent(musicalevents.MusicalEvent{})
+	tm, err := time.Parse(time.RFC3339, "1988-02-05")
+
+	service.InsertUser(users.User{ID: "aaaaa", Email: "pvictorsys@gmail.com", Name: "Paolo Test", BirthDate: &tm})
 }
