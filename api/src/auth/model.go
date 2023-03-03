@@ -1,11 +1,7 @@
 package auth
 
-type Login struct {
-	Email    string
-	Password string
-}
-
-type AuthResponse struct {
+type AuthenticatedUser struct {
+	Email  string
 	Token  string
 	UserID string
 }

@@ -19,6 +19,13 @@ func (service Service) CreateUser(user User) error {
 		return err
 	}
 	user.ID = core.GetRandomId()
+	hashed, err := core.HashPassword(user.Password)
+
+	if err != nil {
+		return err
+	}
+
+	user.Password = hashed
 	return service.repository.Insert(user)
 }
 

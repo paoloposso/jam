@@ -8,7 +8,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/paoloposso/jam/src/core"
 	customerrors "github.com/paoloposso/jam/src/core/custom_errors"
 	"github.com/paoloposso/jam/src/users"
 )
@@ -72,7 +71,7 @@ func (repo *UserRepository) insertUserInfo(user users.User) error {
 	return nil
 }
 
-func (repo *UserRepository) insertUserCredentials(user users.User) error {
+func (repo UserRepository) insertUserCredentials(user users.User) error {
 	output, err := repo.client.GetItem(
 		context.TODO(),
 		&dynamodb.GetItemInput{
@@ -87,17 +86,11 @@ func (repo *UserRepository) insertUserCredentials(user users.User) error {
 		return customerrors.CreateArgumentError("E-mail already exists")
 	}
 
-	hashed, err := core.HashPassword(user.Password)
-
-	if err != nil {
-		return err
-	}
-
 	valuesMap, err := attributevalue.MarshalMap(UserLogin{
 		PK:       "ULOGIN#" + user.Email,
 		SK:       "ULOGIN#" + user.Email,
 		UserID:   user.ID,
-		Password: hashed,
+		Password: user.Password,
 	})
 
 	if err != nil {
@@ -112,4 +105,30 @@ func (repo *UserRepository) insertUserCredentials(user users.User) error {
 		})
 
 	return nil
+}
+
+func (repo UserRepository) Get(id string) (*users.User, error) {
+	output, err := repo.client.GetItem(
+		context.TODO(),
+		&dynamodb.GetItemInput{
+			Key: map[string]types.AttributeValue{
+				"PK": &types.AttributeValueMemberS{Value: "USER#" + id},
+				"SK": &types.AttributeValueMemberS{Value: "USER#" + id},
+			},
+			TableName: aws.String(tableName),
+		})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if output.Item == nil {
+		return nil, customerrors.CreateArgumentError("User ID not found in the database")
+	}
+
+	var model UserInfoModel
+
+	err = attributevalue.UnmarshalMap(output.Item, &model)
+
+	return &users.User{ID: id, Email: model.Email, BirthDate: model.BirthDate}, nil
 }
