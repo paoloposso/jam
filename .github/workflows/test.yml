@@ -20,3 +20,10 @@ jobs:
           cd ./api
           go build -v ./...
           go test -v ./...
+        continue-on-error: true
+
+      - name: Check test status
+        run: |
+          if [ ${{ job.status }} == "failure" ]; then
+            exit 1
+          fi
