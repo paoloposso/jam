@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/paoloposso/jam/src/core"
-	customerrors "github.com/paoloposso/jam/src/core/custom_errors"
+	"github.com/paoloposso/jam/src/core/customerrors"
 )
 
 type AuthService struct {

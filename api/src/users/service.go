@@ -2,19 +2,19 @@ package users
 
 import (
 	"github.com/paoloposso/jam/src/core"
-	errors "github.com/paoloposso/jam/src/core/custom_errors"
+	"github.com/paoloposso/jam/src/core/customerrors"
 )
 
 type Service struct {
 	repository Repository
 }
 
-func NewService(repository Repository) *Service {
-	return &Service{repository: repository}
+func NewService(repository Repository) Service {
+	return Service{repository: repository}
 }
 
 func (service Service) CreateUser(user User) error {
-	err := validateUser(user)
+	err := validateUserInfo(user)
 	if err != nil {
 		return err
 	}
@@ -29,15 +29,15 @@ func (service Service) CreateUser(user User) error {
 	return service.repository.Insert(user)
 }
 
-func validateUser(user User) error {
+func validateUserInfo(user User) error {
 	if user.Email == "" {
-		return errors.CreateValidationError("Email is required")
+		return customerrors.CreateValidationError("Email is required")
 	}
 	if user.Name == "" {
-		return errors.CreateValidationError("Name is required")
+		return customerrors.CreateValidationError("Name is required")
 	}
 	if user.Password == "" {
-		return errors.CreateValidationError("Password is required")
+		return customerrors.CreateValidationError("Password is required")
 	}
 	return nil
 }

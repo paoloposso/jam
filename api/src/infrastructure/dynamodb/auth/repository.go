@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	customerrors "github.com/paoloposso/jam/src/core/custom_errors"
+	"github.com/paoloposso/jam/src/core/customerrors"
 )
 
 const tableName string = "jam-users"
