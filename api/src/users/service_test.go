@@ -30,8 +30,6 @@ func TestCreateUser_ShouldFailUserInvalid(t *testing.T) {
 	if err == nil {
 		t.Fatal("Should Fail for invalid e-mail")
 	}
-
-	t.Fail()
 }
 
 type MockUserRepo struct {
