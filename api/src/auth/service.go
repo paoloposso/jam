@@ -13,7 +13,7 @@ func NewService(repository Repository) AuthService {
 	return AuthService{repository: repository}
 }
 
-func (auth AuthService) Login(email string, password string) (*AuthenticatedUser, error) {
+func (auth AuthService) Authenticate(email string, password string) (*AuthenticatedUser, error) {
 	userID, hashedPassword, err := auth.repository.GetUserByEmail(email)
 
 	if err != nil {

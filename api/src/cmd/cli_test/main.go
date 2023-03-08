@@ -31,5 +31,5 @@ func main() {
 		fmt.Printf("Error: %v", err)
 	}
 
-	authService.Login("pvictorsys@gmail.com", "1234")
+	authService.Authenticate("pvictorsys@gmail.com", "1234")
 }

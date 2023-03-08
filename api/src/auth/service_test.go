@@ -12,7 +12,7 @@ import (
 func TestLogin(t *testing.T) {
 	repo := AuthRepoMock{}
 	service := auth.NewService(repo)
-	_, err := service.Login("pvictorsys@gmail.com", "1234")
+	_, err := service.Authenticate("pvictorsys@gmail.com", "1234")
 
 	if err != nil {
 		t.Fatal(err)
