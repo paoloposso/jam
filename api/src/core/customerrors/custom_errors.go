@@ -10,6 +10,16 @@ func (e *NotFoundError) Error() string {
 	return ""
 }
 
+type UnauthorizedError struct{}
+
+func CreateUnauthorizedError() *UnauthorizedError {
+	return &UnauthorizedError{}
+}
+
+func (e *UnauthorizedError) Error() string {
+	return e.Error()
+}
+
 type ValidationError struct {
 	s string
 }

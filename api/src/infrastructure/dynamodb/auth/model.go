@@ -1,4 +1,4 @@
-package auth
+package authrepo
 
 type UserModel struct {
 	Email    string
