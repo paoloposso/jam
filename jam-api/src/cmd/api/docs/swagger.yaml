@@ -1,0 +1,26 @@
+info:
+  contact:
+    email: support@swagger.io
+    name: Paolo Posso
+    url: http://www.swagger.io/support
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - root
+swagger: "2.0"

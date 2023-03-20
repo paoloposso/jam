@@ -1,6 +1,6 @@
-package main
+package handlers
 
-type auth_request struct {
+type AuthRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
