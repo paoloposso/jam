@@ -1,11 +1,10 @@
-name: Pre-push
+name: Pre-merge
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - dev
-
 
 jobs:
   trigger_workflow:
