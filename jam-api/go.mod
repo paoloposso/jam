@@ -3,7 +3,6 @@ module github.com/paoloposso/jam
 go 1.19
 
 require (
-	github.com/aws/aws-lambda-go v1.37.0
 	github.com/aws/aws-sdk-go-v2 v1.17.5
 	github.com/aws/aws-sdk-go-v2/config v1.18.15
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.10.15
@@ -14,7 +13,6 @@ require (
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.5.3
 	github.com/swaggo/swag v1.8.10
-	github.com/valyala/fastjson v1.6.4
 	golang.org/x/crypto v0.5.0
 )
 
