@@ -19,6 +19,21 @@ func TestLogin(t *testing.T) {
 	}
 }
 
+func TestLoginUnauthorized(t *testing.T) {
+	repo := AuthRepoMock{}
+	service := auth.NewService(repo)
+	_, err := service.Authenticate("pvictorsys@gmail.com", "12345")
+
+	if err != nil {
+		switch err.(type) {
+		case *customerrors.UnauthorizedError:
+			return
+		default:
+			t.Fatal("should return unauthorized error")
+		}
+	}
+}
+
 type AuthRepoMock struct {
 }
 
