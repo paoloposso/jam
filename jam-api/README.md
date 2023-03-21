@@ -10,7 +10,7 @@ go run server.go
 ## unit testing
 go test $(go list ./... | grep -v /tools)
 or
-go test ./src/...
+go test ./libs/...
 
 ## .env file (example)\
 GIN_MODE=debug
