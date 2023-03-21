@@ -17,6 +17,6 @@ jobs:
 
       - name: Build and test
         run: | 
-          cd ./cmd/api
+          cd .jam-api/cmd/api
           go build -v ./...
           go test -v ./...
