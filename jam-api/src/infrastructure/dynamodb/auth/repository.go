@@ -46,7 +46,7 @@ func (repo AuthRepository) GetUserByEmail(email string) (userId, password string
 	}
 
 	if dbResult.Item == nil {
-		return "", "", customerrors.CreateArgumentError("unauthorized")
+		return "", "", customerrors.CreateUnauthorizedError()
 	}
 
 	var model UserModel

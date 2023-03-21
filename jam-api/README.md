@@ -15,4 +15,6 @@ go test ./src/...
 ## .env file (example)\
 GIN_MODE=debug
 
-swag init -g src/cmd/api/main.go --output src/cmd/api/docs
+
+export PATH=$(go env GOPATH)/bin:$PATH
+swag init

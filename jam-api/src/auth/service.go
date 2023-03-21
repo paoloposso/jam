@@ -28,5 +28,5 @@ func (auth AuthService) Authenticate(email string, password string) (*Authentica
 			nil
 	}
 
-	return nil, customerrors.CreateArgumentError("unauthorized")
+	return nil, customerrors.CreateUnauthorizedError()
 }

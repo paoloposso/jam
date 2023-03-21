@@ -17,7 +17,7 @@ func CreateUnauthorizedError() *UnauthorizedError {
 }
 
 func (e *UnauthorizedError) Error() string {
-	return e.Error()
+	return "Unauthorized"
 }
 
 type ValidationError struct {
