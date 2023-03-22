@@ -12,6 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Build and Test Workflow
-        uses: octo-org/workflow-call-action@v1
+        uses: .github/workflows/build-and-test.yml
         with:
           workflow: Build and Test
