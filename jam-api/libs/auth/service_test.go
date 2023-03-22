@@ -27,7 +27,6 @@ func TestLoginUnauthorized(t *testing.T) {
 	if err != nil {
 		switch err.(type) {
 		case *customerrors.UnauthorizedError:
-			t.Fatal("aaaaa")
 			return
 		default:
 			t.Fatal("should return unauthorized error")
