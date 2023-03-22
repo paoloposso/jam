@@ -7,10 +7,6 @@ on:
       - dev
 
 jobs:
-  trigger_workflow:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Build and Test Workflow
-        uses: octo-org/workflow-call-action@v1
-        with:
-          workflow: Build and Test
+  build_and_test:
+    name: Trigger Build and Test Workflow
+    uses: ./.github/workflows/build-and-test.yml

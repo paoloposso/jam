@@ -20,11 +20,3 @@ jobs:
           cd ./jam-api/cmd/api
           go build -v ./...
           go test -v ./...
-      
-      - name: Check if tests passed
-        run: |
-          if [ $? -ne 0 ]
-          then
-            echo "Tests failed. Push denied."
-            exit 1
-          fi
