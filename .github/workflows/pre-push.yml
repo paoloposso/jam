@@ -7,8 +7,6 @@ on:
       - dev
 
 jobs:
-  trigger_workflow:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Build and Test Workflow
-        uses: ./.github/workflows/build-and-test.yml
+  build_and_test:
+    name: Trigger Build and Test Workflow
+    uses: ./.github/workflows/build-and-test.yml
