@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -18,18 +17,9 @@ type UserRepository struct {
 	client *dynamodb.Client
 }
 
-func NewUserRepository() (*UserRepository, error) {
-	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
-		return nil
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	svc := dynamodb.NewFromConfig(cfg)
-
+func NewUserRepository(dbClient *dynamodb.Client) (*UserRepository, error) {
 	return &UserRepository{
-		client: svc,
+		client: dbClient,
 	}, nil
 }
 

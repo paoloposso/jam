@@ -1,4 +1,4 @@
-name: Pre-merge
+name: API Pre-merge
 
 on:
   pull_request:

@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/gin-gonic/gin"
 	"github.com/paoloposso/jam/cmd/api/docs"
 	"github.com/paoloposso/jam/cmd/api/handlers"
@@ -49,7 +52,16 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	if repo, err := authrepo.NewRepository(); err != nil {
+	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	svc := dynamodb.NewFromConfig(cfg)
+
+	if repo, err := authrepo.NewRepository(svc); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	} else {
@@ -85,7 +97,7 @@ func handleHttpError(c *gin.Context, err error) {
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 
-	port := "8080"
+	port := "5500"
 
 	docs.SwaggerInfo.Title = "Jam API"
 	docs.SwaggerInfo.Description = "Jam API."
