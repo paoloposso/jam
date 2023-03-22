@@ -7,6 +7,13 @@ on:
       - dev
 
 jobs:
-  build_and_test:
-    name: Trigger Build and Test Workflow
-    uses: ./.github/workflows/build-and-test.yml
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
