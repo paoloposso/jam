@@ -6,12 +6,9 @@ on:
       - main
       - dev
 
-
 jobs:
   trigger_workflow:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Build and Test Workflow
         uses: ./.github/workflows/build-and-test.yml
-        with:
-          workflow: Build and Test
