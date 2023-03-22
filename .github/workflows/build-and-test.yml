@@ -25,6 +25,3 @@ jobs:
             echo "::set-output name=status::failure"
             exit 1
           fi
-      # - name: Output Status
-      #   run: |
-      #     echo "Status: ${{steps.build-and-test.outputs.status}}"
