@@ -32,6 +32,8 @@ func TestLoginUnauthorized(t *testing.T) {
 			t.Fatal("should return unauthorized error")
 		}
 	}
+
+	t.Fatal("aaaaa")
 }
 
 type AuthRepoMock struct {
