@@ -1,6 +1,6 @@
-package handlers
+package authcontroller
 
-type AuthRequest struct {
+type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
