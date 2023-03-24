@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -16,9 +17,18 @@ type AuthRepository struct {
 	client *dynamodb.Client
 }
 
-func NewRepository(dbClient *dynamodb.Client) (*AuthRepository, error) {
+func NewRepository() (*AuthRepository, error) {
+	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	svc := dynamodb.NewFromConfig(cfg)
+
 	return &AuthRepository{
-		client: dbClient,
+		client: svc,
 	}, nil
 }
 

@@ -13,10 +13,10 @@ WORKDIR /app
 COPY . .
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/api
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./libs/cmd/api
 
 # Expose the port your service will listen on
-EXPOSE 5500
+EXPOSE 8080
 
 # Set the startup command for your container
 CMD ["/app/main"]
