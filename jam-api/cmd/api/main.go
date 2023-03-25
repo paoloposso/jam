@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -44,30 +44,27 @@ func HealthCheck(c *gin.Context) {
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 
-	var cfg aws.Config
+	_ = godotenv.Load(".env")
+
+	gin.SetMode(os.Getenv("GIN_MODE"))
 
 	// credentials file
+	// cfg, err := config.LoadDefaultConfig(context.TODO(),
+	// 	func(o *config.LoadOptions) error {
+	// 		return nil
+	// 	})
+
+	keyId := os.Getenv("AWS_ACCESS_KEY")
+	secretKey := os.Getenv("AWS_ACCESS_KEY_SECRET")
+	region := os.Getenv("AWS_REGION")
+
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		func(o *config.LoadOptions) error {
-			return nil
-		})
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(keyId, secretKey, "")),
+		config.WithRegion(region))
 
-	if cfg.Region == "" {
-		_ = godotenv.Load(".env")
-
-		if os.Getenv("GO_ENV") == "development" {
-			keyId := os.Getenv("AWS_ACCESS_KEY")
-			secretKey := os.Getenv("AWS_ACCESS_KEY_SECRET")
-			region := os.Getenv("AWS_REGION")
-
-			cfg, err = config.LoadDefaultConfig(context.TODO(),
-				config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(keyId, secretKey, "")),
-				config.WithRegion(region))
-
-			if err != nil {
-				panic(err)
-			}
-		}
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		panic(err)
 	}
 
 	svc := dynamodb.NewFromConfig(cfg)
@@ -98,8 +95,10 @@ func main() {
 
 	handler := cors.Default().Handler(router)
 
+	log.Printf("Starting on port %v", port)
+
 	if err := http.ListenAndServe(":"+port, handler); err != nil {
-		log.Fatalf("Error starting server: %v", err)
+		log.Printf("Error starting server: %v", err)
 	} else {
 		log.Printf("Server started on port %v", port)
 	}
