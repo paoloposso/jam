@@ -1,22 +1,23 @@
-name: Build and Test
+name: API Pre-merge
 
 on:
-  workflow_call:
+  pull_request:
+    branches:
+      - main
+      - dev
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
-
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: 1.19
-
-      - name: Build and test
+      - name: Build and Test Libs
         run: | 
-          cd ./jam-api/cmd/api
+          cd ./jam-api/libs
           go build -v ./...
           go test -v ./...

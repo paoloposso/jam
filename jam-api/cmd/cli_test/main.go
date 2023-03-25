@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/paoloposso/jam/libs/auth"
 	authrepo "github.com/paoloposso/jam/libs/infrastructure/dynamodb/auth"
 	userrepo "github.com/paoloposso/jam/libs/infrastructure/dynamodb/user"
@@ -12,9 +15,18 @@ import (
 )
 
 func main() {
-	repo, err := userrepo.NewUserRepository()
+	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
+		return nil
+	})
 
-	authRepo, err := authrepo.NewRepository()
+	if err != nil {
+		panic(err)
+	}
+
+	svc := dynamodb.NewFromConfig(cfg)
+
+	repo, err := userrepo.NewUserRepository(svc)
+	authRepo, err := authrepo.NewRepository(svc)
 
 	if err != nil {
 		log.Fatalf("Error creating repo: %v", err)

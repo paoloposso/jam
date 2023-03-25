@@ -1,14 +1,20 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	authcontroller "github.com/paoloposso/jam/cmd/api/controllers/auth"
 	"github.com/paoloposso/jam/cmd/api/docs"
-	"github.com/paoloposso/jam/cmd/api/handlers"
 	"github.com/paoloposso/jam/libs/auth"
-	"github.com/paoloposso/jam/libs/core/customerrors"
 	authrepo "github.com/paoloposso/jam/libs/infrastructure/dynamodb/auth"
 	"github.com/rs/cors"
 	swaggerFiles "github.com/swaggo/files"
@@ -31,61 +37,48 @@ func HealthCheck(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
-// Login
-// @Summary User Authentication.
-// @Description Performs User Authentication.
-// @Tags Login
-// @Param data body handlers.AuthRequest true "login data"
-// @Produce json
-// @Success 200 {object} error
-// @Failure 404 {object} error
-// @Failure 403 {object} error
-// @Failure 500 {object} error
-// @Router /auth [post]
-func LoginHandler(c *gin.Context) {
-	var req handlers.AuthRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if repo, err := authrepo.NewRepository(); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	} else {
-		service := auth.NewService(repo)
-		user, err := service.Authenticate(req.Email, req.Password)
-
-		if err != nil {
-			handleHttpError(c, err)
-			return
-		}
-		c.IndentedJSON(http.StatusOK, handlers.AuthResponse{Token: user.Token})
-	}
-}
-
-func handleHttpError(c *gin.Context, err error) {
-	e := gin.H{"error": err.Error()}
-
-	switch err.(type) {
-	case *customerrors.UnauthorizedError:
-		c.IndentedJSON(http.StatusUnauthorized, e)
-		return
-	default:
-		c.IndentedJSON(http.StatusInternalServerError, e)
-		return
-	}
-}
-
 // @contact.name   Paolo Posso
 // @contact.url    http://www.swagger.io/support
-// @contact.email  support@swagger.io
-
+// @contact.email  pvictorsys@gmail.com
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 func main() {
 
-	port := "8080"
+	_ = godotenv.Load(".env")
+
+	gin.SetMode(os.Getenv("GIN_MODE"))
+
+	// credentials file
+	// cfg, err := config.LoadDefaultConfig(context.TODO(),
+	// 	func(o *config.LoadOptions) error {
+	// 		return nil
+	// 	})
+
+	keyId := os.Getenv("AWS_ACCESS_KEY")
+	secretKey := os.Getenv("AWS_ACCESS_KEY_SECRET")
+	region := os.Getenv("AWS_REGION")
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(keyId, secretKey, "")),
+		config.WithRegion(region))
+
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		panic(err)
+	}
+
+	svc := dynamodb.NewFromConfig(cfg)
+
+	repo, err := authrepo.NewRepository(svc)
+
+	if err != nil {
+		panic(err)
+	}
+
+	authService := auth.NewService(repo)
+	authController := authcontroller.NewAuthController(authService)
+
+	port := "5500"
 
 	docs.SwaggerInfo.Title = "Jam API"
 	docs.SwaggerInfo.Description = "Jam API."
@@ -95,15 +88,17 @@ func main() {
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
 	router := gin.Default()
-	router.POST("/v1/auth", LoginHandler)
+	router.POST("/v1/auth", authController.Login)
 	router.GET("/v1", HealthCheck)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	handler := cors.Default().Handler(router)
 
+	log.Printf("Starting on port %v", port)
+
 	if err := http.ListenAndServe(":"+port, handler); err != nil {
-		log.Fatalf("Error starting server: %v", err)
+		log.Printf("Error starting server: %v", err)
 	} else {
 		log.Printf("Server started on port %v", port)
 	}
