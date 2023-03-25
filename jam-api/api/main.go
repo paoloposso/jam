@@ -12,8 +12,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	authcontroller "github.com/paoloposso/jam/cmd/api/controllers/auth"
-	"github.com/paoloposso/jam/cmd/api/docs"
+	controllers "github.com/paoloposso/jam/api/controllers/auth"
+	"github.com/paoloposso/jam/api/docs"
 	"github.com/paoloposso/jam/libs/auth"
 	authrepo "github.com/paoloposso/jam/libs/infrastructure/dynamodb/auth"
 	"github.com/rs/cors"
@@ -76,7 +76,7 @@ func main() {
 	}
 
 	authService := auth.NewService(repo)
-	authController := authcontroller.NewAuthController(authService)
+	authController := controllers.NewAuthController(authService)
 
 	port := "5500"
 

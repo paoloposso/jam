@@ -1,4 +1,4 @@
-package authcontroller
+package controllers
 
 type LoginRequest struct {
 	Email    string `json:"email"`

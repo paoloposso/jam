@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN go build -o main ./cmd/api
+RUN go build -o main ./api
 
 EXPOSE 5500
 

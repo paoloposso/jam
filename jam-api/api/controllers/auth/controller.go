@@ -1,10 +1,10 @@
-package authcontroller
+package controllers
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	handlers "github.com/paoloposso/jam/cmd/api/controllers"
+	handlers "github.com/paoloposso/jam/api/controllers"
 	"github.com/paoloposso/jam/libs/auth"
 )
 
@@ -20,7 +20,7 @@ func NewAuthController(service auth.Service) AuthController {
 // @Summary User Authentication.
 // @Description Performs User Authentication.
 // @Tags Login
-// @Param data body controllers.AuthRequest true "login data"
+// @Param data body controllers.LoginRequest true "login data"
 // @Produce json
 // @Success 200 {object} error
 // @Failure 404 {object} error

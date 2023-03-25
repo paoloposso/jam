@@ -1,5 +1,5 @@
 definitions:
-  handlers.AuthRequest:
+  controllers.LoginRequest:
     properties:
       email:
         type: string
@@ -8,7 +8,7 @@ definitions:
     type: object
 info:
   contact:
-    email: support@swagger.io
+    email: pvictorsys@gmail.com
     name: Paolo Posso
     url: http://www.swagger.io/support
   license:
@@ -41,7 +41,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/handlers.AuthRequest'
+          $ref: '#/definitions/controllers.LoginRequest'
       produces:
       - application/json
       responses:
