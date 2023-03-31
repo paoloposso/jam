@@ -1,0 +1,5 @@
+*.env
+/deployment
+.terraform/
+.terraform.*
+terraform.*

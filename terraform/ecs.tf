@@ -44,7 +44,7 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "private" {
   cidr_block        = "10.0.2.0/24"
   vpc_id            = aws_vpc.jam-api.id
-  availability_zone = "us-east-2a"
+  availability_zone = "us-east-2b"
 
   tags = {
     Name = "jam-api-private-subnet"
@@ -72,7 +72,7 @@ resource "aws_ecs_task_definition" "jam-api" {
   container_definitions    = jsonencode([
     {
       name      = "jam-api"
-      image     = "pvictosys/jam-api"
+      image     = "docker.io/pvictosys/jam-api:latest"
       portMappings = [
         {
           containerPort = 5500
@@ -108,6 +108,7 @@ resource "aws_lb" "jam-api" {
 }
 
 resource "aws_lb_target_group" "jam-api" {
+
   name_prefix      = "jtg-"
   port             = 80
   protocol         = "HTTP"
@@ -120,6 +121,33 @@ resource "aws_lb_target_group" "jam-api" {
     timeout  = 10
   }
 }
+
+resource "aws_lb_listener" "jam-api" {
+  load_balancer_arn = aws_lb.jam-api.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.jam-api.arn
+    type             = "forward"
+  }
+}
+
+resource "aws_lb_listener_rule" "jam-api" {
+  listener_arn = aws_lb_listener.jam-api.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.jam-api.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/*"]
+    }
+  }
+}
+
 
 resource "aws_ecs_cluster" "jam_ecs_cluster" {
   name = "my-cluster"
