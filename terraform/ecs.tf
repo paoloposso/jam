@@ -67,34 +67,6 @@ resource "aws_security_group" "alb_sg" {
   vpc_id      = aws_vpc.jam-api.id
 }
 
-resource "aws_ecs_task_definition" "jam-api" {
-  family                   = "jam-api"
-  container_definitions    = jsonencode([
-    {
-      name      = "jam-api"
-      image     = "docker.io/pvictosys/jam-api:latest"
-      portMappings = [
-        {
-          containerPort = 5500
-          hostPort = 5500
-        }
-      ]
-    }
-  ])
-
-  requires_compatibilities = [
-    "FARGATE"
-  ]
-
-  network_mode = "awsvpc"
-
-  memory        = 512
-  cpu           = 256
-
-#   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
-#   task_role_arn      = aws_iam_role.ecs_task_role.arn
-}
-
 resource "aws_lb" "jam-api" {
   name               = "jam-api-lb"
   internal           = false
@@ -150,13 +122,15 @@ resource "aws_lb_listener_rule" "jam-api" {
 
 
 resource "aws_ecs_cluster" "jam_ecs_cluster" {
-  name = "my-cluster"
+  name = "jam-ecs-cluster"
 }
 
 resource "aws_ecs_service" "jam-api" {
   name            = "jam-api"
   cluster         = aws_ecs_cluster.jam_ecs_cluster.id
   task_definition = aws_ecs_task_definition.jam-api.arn
+
+  launch_type = "FARGATE"
 
   desired_count   = 1
 
@@ -171,4 +145,33 @@ resource "aws_ecs_service" "jam-api" {
     container_name   = "jam-api"
     container_port   = 5500
   }
+}
+
+
+resource "aws_ecs_task_definition" "jam-api" {
+  family                   = "jam-api"
+  container_definitions    = jsonencode([
+    {
+      name      = "jam-api"
+      image     = "docker.io/pvictosys/jam-api:latest"
+      portMappings = [
+        {
+          containerPort = 5500
+          hostPort = 5500
+        }
+      ]
+    }
+  ])
+
+  requires_compatibilities = [
+    "FARGATE"
+  ]
+
+  network_mode = "awsvpc"
+
+  memory        = 512
+  cpu           = 256
+
+#   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+#   task_role_arn      = aws_iam_role.ecs_task_role.arn
 }
